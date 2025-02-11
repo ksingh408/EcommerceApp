@@ -45,6 +45,7 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
         {/* Menu Bar with Dropdown */}
+        
         <div className="position-relative" ref={menuRef}>
           <button
             className="btn bg-transparent border-0"
@@ -108,7 +109,6 @@ const Navbar = () => {
               <Link className="btn btn-outline-light mx-1" to="/signin">Sign in</Link>
             </li>
 
-            {/* Wishlist Icon */}
             <Link to="/wishlist" className="btn position-relative mx-2">
               <FaHeart size={30} className="text-danger" />
               {wishlistCount > 0 && (
@@ -121,7 +121,7 @@ const Navbar = () => {
               )}
             </Link>
 
-            {/* Shopping Cart Icon with Dropdown */}
+       
             <div className="position-relative" ref={cartRef}>
               <button
                 className="btn position-relative bg-transparent border-0"

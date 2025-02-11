@@ -7,17 +7,16 @@ const Wishlist = () => {
   const wishlist = useSelector((state) => state.wishlist?.wishlistItems || []);
   const dispatch = useDispatch();
 
-  // State for sorting filter
   const [sortOrder, setSortOrder] = useState("default");
 
-  // Sort wishlist items based on selected filter
+
   const sortedWishlist = [...wishlist].sort((a, b) => {
     if (sortOrder === "lowToHigh") return a.price - b.price;
     if (sortOrder === "highToLow") return b.price - a.price;
     return 0;
   });
 
-  // Calculate total wishlist price based on quantity
+ 
   const totalWishlistPrice = wishlist.reduce((total, item) => total + item.price * item.quantity, 0);
 
   return (
@@ -43,7 +42,7 @@ const Wishlist = () => {
       {wishlist.length === 0 ? (
         <div className="text-center">
           <h4>No items in your wishlist!</h4>
-          <Link to="/" className="btn btn-primary mt-3">Browse Products</Link>
+       
         </div>
       ) : (
         <>
