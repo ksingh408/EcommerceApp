@@ -1,0 +1,44 @@
+{
+        "users": [
+          {
+            "id": 1,
+            "name": "John Doe",
+            "email": "johndoe@example.com",
+            "password": "hashed_password_123",
+            "role": "user",
+            "wishlist": [101, 102],
+            "cart": [
+              {
+                "productId": 103,
+                "quantity": 2
+              },
+              {
+                "productId": 104,
+                "quantity": 1
+              }
+            ],
+            "address": {
+              "street": "123 Main St",
+              "city": "Indore",
+              "state": "MP",
+              "zip": "452001"
+            }
+          },
+          {
+            "id": 2,
+            "name": "Jane Smith",
+            "email": "janesmith@example.com",
+            "password": "hashed_password_456",
+            "role": "admin",
+            "wishlist": [105, 106],
+            "cart": [],
+            "address": {
+              "street": "456 Elm St",
+              "city": "Indore",
+              "state": "MP",
+              "zip": "452002"
+            }
+          }
+        ]
+      }
+      
