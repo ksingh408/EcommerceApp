@@ -1,11 +1,14 @@
-// export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-// export const LOGOUT = "LOGOUT";
 
-// export const loginUser = (user) => ({
-//   type: LOGIN_SUCCESS,
-//   payload: user,
-// });
-
-// export const logoutUser = () => ({
-//   type: LOGOUT,
-// });
+export const loginUser = (email, password) => {
+        return {
+          type: "LOGIN_USER",
+          payload: { email, password },
+        };
+      };
+      
+      export const logoutUser = () => {
+        return {
+          type: "LOGOUT_USER",
+        };
+      };
+      

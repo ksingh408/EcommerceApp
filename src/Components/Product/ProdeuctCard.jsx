@@ -1,34 +1,49 @@
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-//import  Img from '../image/img2.jpg';
-import config  from '../config.json';
-import { useNavigate } from "react-router-dom";
-import React from 'react';
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import config from "../config.json";
 
 export default function CardImg() {
-  let CardArr=config;
+  const [sortOrder, setSortOrder] = useState("default");
 
-  if("/"){
-  let CardArrs=CardArr.slice(0,12)
+  let sortedCards = [...config];
+
+  if (sortOrder === "lowToHigh") {
+    sortedCards.sort((a, b) => a.price - b.price);
+  } else if (sortOrder === "highToLow") {
+    sortedCards.sort((a, b) => b.price - a.price);
+  }
+
+  const displayedCards = sortedCards.slice(0, 12); // Show only 12 items
 
   return (
-  <div className="d-flex flex-wrap  justify-content-between g-4 mt-4 p-5 bg-red-400 shadow-lg">
-      {CardArrs.map((eachCard,index)=>(
-        <Card className='mt-4' style={{ width: '24%' }}>
-       <Card.Img variant="top" src={eachCard.image} />
-       <Card.Body>
-        <Card.Title>{eachCard.name}</Card.Title>
-        {/* <Card.Price>{eachCard.brand}</Card.Price> */}
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
+    <div className="p-5 bg-red-400 shadow-lg">
+      {/* Sorting Dropdown */}
+      <div className="d-flex justify-content-end mb-3">
+        <select
+          className="form-select w-25"
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+        >
+          <option value="default">Default</option>
+          <option value="lowToHigh">Price: Low to High</option>
+          <option value="highToLow">Price: High to Low</option>
+        </select>
+      </div>
 
-        
-        <Button variant="primary">Go to Cart</Button> 
-       </Card.Body>
-    </Card>))}
+      {/* Product Cards */}
+      <div className="d-flex flex-wrap justify-content-between g-4">
+        {displayedCards.map((eachCard, index) => (
+          <Card key={index} className="mt-4" style={{ width: "24%" }}>
+            <Card.Img variant="top" src={eachCard.image} />
+            <Card.Body>
+              <Card.Title>{eachCard.name}</Card.Title>
+              <Card.Text>Price: ₹{eachCard.price}</Card.Text>
+              <Button variant="primary">Go to Cart</Button>
+            </Card.Body>
+          </Card>
+        ))}
+      </div>
     </div>
-  
-  );}}
- 
+  );
+}

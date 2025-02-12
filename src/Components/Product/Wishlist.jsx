@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { increaseQuantity, decreaseQuantity, removeFromWishlist } from "../Store/Slices/wishlistSlice";
+import { increaseQuantity, decreaseQuantity, removeFromWishlist } from "../Redux/Slices/wishlistSlice";
 import { Link } from "react-router-dom";
 
 const Wishlist = () => {

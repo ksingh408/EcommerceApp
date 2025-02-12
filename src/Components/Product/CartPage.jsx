@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { increaseCartQuantity, decreaseCartQuantity, removeFromCart } from "../Store/Slices/addtoCart";
+import { increaseCartQuantity, decreaseCartQuantity, removeFromCart } from "../Redux/Slices/addtoCart";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
@@ -17,7 +17,6 @@ const Cart = () => {
       {cart.length === 0 ? (
         <div className="text-center">
           <h4>Your cart is empty!</h4>
-          <Link to="/" className="btn btn-primary mt-3">Start Shopping</Link>
         </div>
       ) : (
         <>
