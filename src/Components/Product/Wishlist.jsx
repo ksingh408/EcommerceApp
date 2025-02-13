@@ -21,7 +21,7 @@ const Wishlist = () => {
 
   return (
     <div className="container mt-5 d-flex flex-column align-items-center" style={{ width: "80%" }}>
-      <h2 className="text-center mb-4">💖 Your Wishlist</h2>
+      <h2 className="text-center mt-5 mb-4">💖 Your Wishlist</h2>
 
       {/* Filter Dropdown */}
       {wishlist.length > 0 && (

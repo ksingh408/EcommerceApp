@@ -10,7 +10,7 @@ import Home from './Components/Product/Home';
 import SiteUser from "./Components/Product/usersProduct"
 import Cart from "./Components/Product/CartPage.jsx"
 import Wishlist from './Components/Product/Wishlist.jsx';
-import Seller from './Components/seller/sellerPage.jsx'
+import Seller from './Components/Product/sellerAction.jsx'
 const App = () => {
 
     
@@ -31,7 +31,7 @@ const App = () => {
           <Route path="/signin" element={<Signup/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/about" element={<h2>About Page</h2>} /> 
-          {/* <Route path="/seller" element={<Seller/>} />  */}
+           <Route path="/seller" element={<Seller/>} /> 
         </Routes> 
        </div>
        <Footer/> 

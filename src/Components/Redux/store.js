@@ -1,15 +1,18 @@
-import { configureStore } from '@reduxjs/toolkit';
-import cartReducer from './Slices/addtoCart.jsx';
-import wishlistReducer from './Slices/wishlistSlice.jsx';
-import authReducer from "./Slices/authReducer.jsx";
-import sellerReducer from "./Slices/sellerReduser.jsx"
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./Slices/authReducer";
+import cartReducer from "./Slices/addtoCart";
+import wishlistReducer from "./Slices/wishlistSlice";
+import searchReducer from "./Slices/SearchSlice"; 
+import sellerReducer from "./Slices/sellerReduser";
 const store = configureStore({
   reducer: {
+    auth: authReducer,
     cart: cartReducer,
     wishlist: wishlistReducer,
-    auth: authReducer,
-    seller: sellerReducer,
+    search: searchReducer, 
+    seller:sellerReducer,
   },
 });
 
 export default store;
+

@@ -7,12 +7,11 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart?.cartItems || []);
   const dispatch = useDispatch();
 
-  // Calculate total cart price based on quantity
   const totalCartPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
   return (
     <div className="container mt-5 d-flex flex-column align-items-center" style={{ width: "80%" }}>
-      <h2 className="text-center mb-4">🛒 Your Cart</h2>
+      <h2 className="text-center mt-5 mb-4">🛒 Your Cart</h2>
 
       {cart.length === 0 ? (
         <div className="text-center">

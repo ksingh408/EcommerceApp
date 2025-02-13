@@ -14,7 +14,7 @@ function LoginPage() {
   const handleLogin = () => {
     const user = users.find((u) => u.email === email && u.password === password);
     if (user) {
-      dispatch(loginUser(user)); // Dispatch action to update Redux state
+      dispatch(loginUser(user));
       navigate("/services");
     } else {
       alert("Invalid email or password.");

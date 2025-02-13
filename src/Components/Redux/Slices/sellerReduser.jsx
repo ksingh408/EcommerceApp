@@ -1,31 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import products from "../config.json"
-
+import products from "../../config.json"
 const initialState = {
-  products: [],
+  sellers: [],
+  //products: [],
+  currentSeller: null,
 };
+
 const sellerSlice = createSlice({
   name: "seller",
   initialState,
   reducers: {
+    loginSeller: (state, action) => {
+      state.currentSeller = action.payload;
+    },
+    logoutSeller: (state) => {
+      state.currentSeller = null;
+    },
     addProduct: (state, action) => {
       state.products.push(action.payload);
     },
-    removeProduct: (state, action) => {
-      state.products = state.products.filter(
-        (product) => product.name !== action.payload.name
-      );
-    },
     updateProduct: (state, action) => {
-      const index = state.products.findIndex(
-        (product) => product.name === action.payload.name
-      );
-      if (index !== -1) {
-        state.products[index] = action.payload;
-      }
+      const index = state.products.findIndex(p => p.id === action.payload.id);
+      if (index !== -1) state.products[index] = action.payload;
+    },
+    deleteProduct: (state, action) => {
+      state.products = state.products.filter(p => p.id !== action.payload);
     },
   },
 });
 
-export const { addProduct, removeProduct, updateProduct } = sellerSlice.actions;
+export const { loginSeller, logoutSeller, addProduct, updateProduct, deleteProduct } = sellerSlice.actions;
 export default sellerSlice.reducer;

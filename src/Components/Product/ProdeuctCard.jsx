@@ -1,12 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import config from "../config.json";
 
 export default function CardImg() {
   const [sortOrder, setSortOrder] = useState("default");
+  const searchTerm = useSelector((state) => state.search.searchTerm); 
+  const [filteredCards, setFilteredCards] = useState(config);
 
-  let sortedCards = [...config];
+  
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      const filtered = config.filter((item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredCards(filtered);
+    }, 500); 
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
+
+  let sortedCards = [...filteredCards];
 
   if (sortOrder === "lowToHigh") {
     sortedCards.sort((a, b) => a.price - b.price);
@@ -14,12 +29,13 @@ export default function CardImg() {
     sortedCards.sort((a, b) => b.price - a.price);
   }
 
-  const displayedCards = sortedCards.slice(0, 12); // Show only 12 items
+  const displayedCards = sortedCards.slice(0, 12); 
 
   return (
     <div className="p-5 bg-red-400 shadow-lg">
+     
       {/* Sorting Dropdown */}
-      <div className="d-flex justify-content-end mb-3">
+     <div className="d-flex justify-content-end mb-3">
         <select
           className="form-select w-25"
           value={sortOrder}
@@ -31,18 +47,24 @@ export default function CardImg() {
         </select>
       </div>
 
-      {/* Product Cards */}
+  
       <div className="d-flex flex-wrap justify-content-between g-4">
-        {displayedCards.map((eachCard, index) => (
-          <Card key={index} className="mt-4" style={{ width: "24%" }}>
-            <Card.Img variant="top" src={eachCard.image} />
-            <Card.Body>
-              <Card.Title>{eachCard.name}</Card.Title>
-              <Card.Text>Price: ₹{eachCard.price}</Card.Text>
-              <Button variant="primary">Go to Cart</Button>
-            </Card.Body>
-          </Card>
-        ))}
+        {displayedCards.length > 0 ? (
+          displayedCards.map((eachCard, index) => (
+            <Card key={index} className="mt-4" style={{ width: "24%" }}>
+              <Card.Img  className="card-img-top"
+                              style={{ height: "300px", objectFit: "cover" }}
+                               src={eachCard.image} />
+              <Card.Body>
+                <Card.Title>{eachCard.name}</Card.Title>
+                <Card.Text>Price: ₹{eachCard.price}</Card.Text>
+                <Button variant="primary">Go to Cart</Button>
+              </Card.Body>
+            </Card>
+          ))
+        ) : (
+          <p className="text-center w-100 mt-3">No products found.</p>
+        )}
       </div>
     </div>
   );
