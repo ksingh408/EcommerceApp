@@ -1,30 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../Redux/Slices/addtoCart";
 import { addToWishlist, removeFromWishlist } from "../Redux/Slices/wishlistSlice";
 import { Button, Card, Dropdown } from "react-bootstrap";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import config from "../config.json"; // Mock data
+// import config from "../config.json"; // Mock data
+//import products from "../Redux/Slices/sellerReduser"
 import Carousel from "./Carousal";
 
 const CardImg = () => {
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist.wishlistItems);
   const searchTerm = useSelector((state) =>  state.search.searchTerm);
+  const allproducts=useSelector((state)=>state.seller.products)
 
   const [sortOrder, setSortOrder] = useState("default");
-  const [filteredProducts, setFilteredProducts] = useState(config);
+// console.log(allproducts)
 
+  // const combinedProducts = useMemo(() => [...config, ...allproducts], [allproducts]);
+  // console.log(combinedProducts);
+  
+
+  const [filteredProducts, setFilteredProducts] = useState(allproducts);
+  
   // Debounce Logic in useEffect
   useEffect(() => {
     const timer = setTimeout(() => {
       if (searchTerm) {
-        const filtered = config.filter((product) =>
+        const filtered = allproducts.filter((product) =>
           product.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredProducts(filtered);
       } else {
-        setFilteredProducts(config);
+        setFilteredProducts(allproducts);
       }
     }, 500); // 500ms delay
 
@@ -80,7 +88,7 @@ const CardImg = () => {
 
                 <Card.Img
                   className="card-img-top"
-                  style={{ height: "200px", objectFit: "cover" }}
+                  style={{ height: "400px", objectFit: "cover" }}
                   src={product.image}
                 />
                 <Card.Body>

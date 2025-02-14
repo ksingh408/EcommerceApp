@@ -41,7 +41,7 @@ const Navbar = () => {
         <div className="position-relative" ref={menuRef}>
           <button
             className="btn bg-transparent border-0"
-            onClick={toggleMenu}
+            onClickCapture={toggleMenu}
           >
             <AiOutlineBars size={50} className="text-white" />
           </button>
@@ -56,10 +56,13 @@ const Navbar = () => {
                 zIndex: "1000",
                 width: "180px",
               }}
-            >
+            >  
+             <Link className="dropdown-item" to="/">Home</Link>
               <Link className="dropdown-item" to="/seller">Seller</Link>
               <Link className="dropdown-item" to="/admin">Admin</Link>
+              <Link className="dropdown-item" to="/services">Service</Link>
               <Link className="dropdown-item" to="/dashboard">Dashboard</Link>
+
             </div>
           )}
         </div>

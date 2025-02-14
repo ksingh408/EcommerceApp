@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import products from "../../config.json"
+import productData from "../../config.json"
 const initialState = {
   sellers: [],
-  //products: [],
+  
+  products:productData.products || [],
   currentSeller: null,
 };
+
+// console.log(product);
+
 
 const sellerSlice = createSlice({
   name: "seller",
@@ -17,7 +21,8 @@ const sellerSlice = createSlice({
       state.currentSeller = null;
     },
     addProduct: (state, action) => {
-      state.products.push(action.payload);
+      const newProduct = action.payload
+      state.products.push({...newProduct, id: Date.now()});
     },
     updateProduct: (state, action) => {
       const index = state.products.findIndex(p => p.id === action.payload.id);

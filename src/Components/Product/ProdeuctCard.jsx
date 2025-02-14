@@ -2,17 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import config from "../config.json";
+//import config from "../config.json";
 
 export default function CardImg() {
   const [sortOrder, setSortOrder] = useState("default");
   const searchTerm = useSelector((state) => state.search.searchTerm); 
-  const [filteredCards, setFilteredCards] = useState(config);
+  
+  const allproducts=useSelector((state)=>state.seller.products)
 
   
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      const filtered = config.filter((item) =>
+      const filtered = allproducts.filter((item) =>
         item.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredCards(filtered);
@@ -20,7 +21,8 @@ export default function CardImg() {
 
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);
-
+  
+  const [filteredCards, setFilteredCards] = useState(allproducts);
   let sortedCards = [...filteredCards];
 
   if (sortOrder === "lowToHigh") {
@@ -35,9 +37,9 @@ export default function CardImg() {
     <div className="p-5 bg-red-400 shadow-lg">
      
       {/* Sorting Dropdown */}
-     <div className="d-flex justify-content-end mb-3">
+     {/* <div className="d-flex justify-content-start mb-3"> */}
         <select
-          className="form-select w-25"
+          className="form-select " style={{width:"200px"}}
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value)}
         >
@@ -45,15 +47,15 @@ export default function CardImg() {
           <option value="lowToHigh">Price: Low to High</option>
           <option value="highToLow">Price: High to Low</option>
         </select>
-      </div>
+      {/* </div> */}
 
   
       <div className="d-flex flex-wrap justify-content-between g-4">
         {displayedCards.length > 0 ? (
           displayedCards.map((eachCard, index) => (
-            <Card key={index} className="mt-4" style={{ width: "24%" }}>
+            <Card key={index} className="mt-4 icon-link-hover" style={{ width: "24%" }}>
               <Card.Img  className="card-img-top"
-                              style={{ height: "300px", objectFit: "cover" }}
+                              style={{ height: "450px", objectFit: "cover" }}
                                src={eachCard.image} />
               <Card.Body>
                 <Card.Title>{eachCard.name}</Card.Title>
