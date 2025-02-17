@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
-    <footer className="bg-dark text-light py-4">
+    <footer className="bg-dark text-light py-4 mt-auto">
       <div className="container text-center">
         <div className="row">
           <div className="col-md-4">
@@ -12,16 +13,16 @@ const Footer = () => {
           <div className="col-md-4">
             <h5>Quick Links</h5>
             <ul className="list-unstyled">
-            <li className="nav-item">
-              <Link className="nav-link" to="/about">
-                About
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/contact">
-                Contact
-              </Link>
-            </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/about">
+                  About
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/contact">
+                  Contact
+                </Link>
+              </li>
               <li><a href="/faq" className="text-light">FAQ</a></li>
             </ul>
           </div>
