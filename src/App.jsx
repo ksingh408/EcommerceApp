@@ -12,6 +12,8 @@ import Cart from "./Components/Product/CartPage.jsx"
 import Wishlist from './Components/Product/Wishlist.jsx';
 import Seller from './Components/Product/sellerAction.jsx'
 import Admin from './Components/Product/AdminUser.jsx'
+import Checkout from './Components/Product/checkOut.jsx';
+import OrderSuccess from './Components/Product/orderSucess.jsx';
 const App = () => {
 
     
@@ -34,6 +36,8 @@ const App = () => {
           <Route path="/about" element={<h2>About Page</h2>} /> 
            <Route path="/seller" element={<Seller/>} /> 
            <Route path="/admin" element={<Admin/>} /> 
+           <Route path="/checkout" element={<Checkout />} />
+           <Route path="/order-success" element={<OrderSuccess />} />
         </Routes> 
        </div>
        <Footer/> 
