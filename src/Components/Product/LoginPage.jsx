@@ -1,3 +1,5 @@
+
+// LoginPage.js
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -14,8 +16,14 @@ function LoginPage() {
   const handleLogin = () => {
     const user = users.find((u) => u.email === email && u.password === password);
     if (user) {
-      dispatch(loginUser(user));
-      navigate("/services");
+      dispatch(loginUser(user)); 
+      if (user.role === "admin") {
+        navigate("/admin"); 
+      } else if (user.role === "seller") {
+        navigate("/seller"); 
+      } else {
+        navigate("/user"); 
+      }
     } else {
       alert("Invalid email or password.");
     }
@@ -51,5 +59,4 @@ function LoginPage() {
 }
 
 export default LoginPage;
-
 

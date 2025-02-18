@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "../Redux/Slices/authReducer";
 import { CiShoppingCart } from "react-icons/ci";
 import { AiOutlineBars } from "react-icons/ai";
 import { FaHeart } from "react-icons/fa";
@@ -12,7 +13,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth.currentUser);
   const cartItems = useSelector((state) => state.cart?.cartItems || []);
   const wishlistItems = useSelector((state) => state.wishlist?.wishlistItems || []);
   const cartCount = cartItems.length;
@@ -20,14 +21,19 @@ const Navbar = () => {
   
   const [searchTerm, setLocalSearchTerm] = useState("");
   const menuRef = useRef(null);
+
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
- 
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate("/"); 
+  };
+
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       dispatch(setSearchTerm(searchTerm)); 
-      
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);
@@ -36,13 +42,9 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
       <div className="container-fluid d-flex justify-content-between align-items-center px-4">
-        
-        {/* Menu Toggle */}
+ 
         <div className="position-relative" ref={menuRef}>
-          <button
-            className="btn bg-transparent border-0"
-            onClickCapture={toggleMenu}
-          >
+          <button className="btn bg-transparent border-0" onClickCapture={toggleMenu}>
             <AiOutlineBars size={50} className="text-white" />
           </button>
 
@@ -57,22 +59,19 @@ const Navbar = () => {
                 width: "180px",
               }}
             >  
-             <Link className="dropdown-item" to="/">Home</Link>
-              <Link className="dropdown-item" to="/seller">Seller</Link>
+              <Link className="dropdown-item" to="/">Home</Link>
               <Link className="dropdown-item" to="/admin">Admin</Link>
               <Link className="dropdown-item" to="/services">Service</Link>
               <Link className="dropdown-item" to="/dashboard">Dashboard</Link>
-
             </div>
           )}
         </div>
 
-
-    
         <Link className="navbar-brand mx-3" to="/">
           <h1 className="text-white">OnlineStore</h1>
         </Link>
 
+  
         <div className="d-flex flex-row mx-auto ms-3" style={{ width: "30%" }}>
           <input
             type="text"
@@ -84,7 +83,7 @@ const Navbar = () => {
           <button className="btn btn-outline-light mx-1">Search</button>
         </div>
 
-        {/* Wishlist & Cart */}
+    
         <Link to="/wishlist" className="btn position-relative mx-2">
           <FaHeart size={30} className="text-danger" />
           {wishlistCount > 0 && (
@@ -103,9 +102,9 @@ const Navbar = () => {
           )}
         </Link>
 
-        {/* Auth Buttons */}
+      
         {user ? (
-          <button className="btn btn-outline-light mx-2" onClick={() => navigate("/")}>
+          <button className="btn btn-outline-light mx-2" onClick={handleLogout}>
             Logout
           </button>
         ) : (
@@ -119,6 +118,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
-

@@ -1,68 +1,86 @@
-import { useSelector, useDispatch } from "react-redux";
-import { addProduct, updateProduct, deleteProduct } from "../Redux/Slices/AdminReduser";
-import { useState } from "react";
+import { useSelector } from "react-redux";
+import { Card, Container, Row, Col, Table } from "react-bootstrap";
 
 const AdminPanel = () => {
-  const dispatch = useDispatch();
-  const products = useSelector(state => state.admin.products);
-  const [newProduct, setNewProduct] = useState({ name: "", price: "", image: "" });
-  const [editingProduct, setEditingProduct] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-
-  const handleAddOrUpdateProduct = () => {
-    if (newProduct.name && newProduct.price && newProduct.image) {
-      if (editingProduct) {
-        dispatch(updateProduct({ ...newProduct, id: editingProduct.id }));
-        setEditingProduct(null);
-      } else {
-        dispatch(addProduct({ ...newProduct, id: Date.now() }));
-      }
-      setNewProduct({ name: "", price: "", image: "" });
-      setImagePreview(null);
-    }
-  };
-
-  const handleEdit = (product) => {
-    setEditingProduct(product);
-    setNewProduct(product);
-    setImagePreview(product.image);
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setNewProduct(prev => ({ ...prev, image: reader.result }));
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  const users = useSelector(state => state.admin.users); 
+  const sellers = useSelector(state => state.admin.sellers); 
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold">Admin Panel</h2>
-      <div className="my-4">
-        <input type="text" placeholder="Product Name" value={newProduct.name} 
-          onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })} />
-        <input type="number" placeholder="Price" value={newProduct.price} 
-          onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })} />
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        {imagePreview && <img src={imagePreview} alt="Preview" className="w-20 h-20 object-cover mt-2" />}
-        <button onClick={handleAddOrUpdateProduct}>{editingProduct ? "Update Product" : "Add Product"}</button>
-      </div>
-      <ul>
-        {products.map(product => (
-          <li key={product.id}>
-            <img src={product.image} alt={product.name} className="w-10 h-10 object-cover inline-block mr-2" />
-            {product.name} - ${product.price} 
-            <button onClick={() => handleEdit(product)}>Edit</button>
-            <button onClick={() => dispatch(deleteProduct(product.id))}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Container className="mt-5 min-vh-100">
+      <h2 className="text-center mb-4">Admin Panel - User & Seller Details</h2>
+
+      <Row className="mb-4">
+        <Col>
+          <Card className="shadow-lg">
+            <Card.Header className="bg-primary text-white text-center">
+              <h4>Users</h4>
+            </Card.Header>
+            <Card.Body>
+              {users.length > 0 ? (
+                <Table striped bordered hover responsive>
+                  <thead className="table-dark">
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map((user, index) => (
+                      <tr key={user.id}>
+                        <td>{index + 1}</td>
+                        <td>{user.name}</td>
+                        <td>{user.email}</td>
+                        <td>{user.role}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              ) : (
+                <p className="text-center text-muted">No users found.</p>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col>
+          <Card className="shadow-lg">
+            <Card.Header className="bg-success text-white text-center">
+              <h4>Sellers</h4>
+            </Card.Header>
+            <Card.Body>
+              {sellers.length > 0 ? (
+                <Table striped bordered hover responsive>
+                  <thead className="table-dark">
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Products Count</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {sellers.map((seller, index) => (
+                      <tr key={seller.id}>
+                        <td>{index + 1}</td>
+                        <td>{seller.name}</td>
+                        <td>{seller.email}</td>
+                        <td>{seller.productCount}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              ) : (
+                <p className="text-center text-muted">No sellers found.</p>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

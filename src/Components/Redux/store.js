@@ -4,7 +4,7 @@ import cartReducer from "./Slices/addtoCart";
 import wishlistReducer from "./Slices/wishlistSlice";
 import searchReducer from "./Slices/SearchSlice"; 
 import sellerReducer from "./Slices/sellerReduser";
-import AdminPanel from "./Slices/AdminReduser";
+import AdminPanel from "./Slices/AdminReduser.jsx";
 const store = configureStore({
   reducer: {
     auth: authReducer,

@@ -34,10 +34,10 @@ export default function CardImg() {
   const displayedCards = sortedCards.slice(0, 12); 
 
   return (
-    <div className="p-5 bg-red-400 shadow-lg">
+    <div className="p-5 bg-red-400 shadow-lg po min-vh-100">
      
-      {/* Sorting Dropdown */}
-     {/* <div className="d-flex justify-content-start mb-3"> */}
+      
+     
         <select
           className="form-select " style={{width:"200px"}}
           value={sortOrder}
@@ -47,7 +47,6 @@ export default function CardImg() {
           <option value="lowToHigh">Price: Low to High</option>
           <option value="highToLow">Price: High to Low</option>
         </select>
-      {/* </div> */}
 
   
       <div className="d-flex flex-wrap justify-content-between g-4">

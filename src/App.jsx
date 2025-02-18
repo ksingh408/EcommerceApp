@@ -19,17 +19,15 @@ const App = () => {
     
   return (
     <Router>
-      <Navbar /> {/* Add the Navbar here */} 
+      <Navbar /> 
        <div>
         <Routes>
         <Route path="/" element={<Home/>} />
         
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
-           {/* <Route path="/men" element={<h2>Men</h2>} /> 
-           <Route path="/women" element={<h2>Women</h2>} /> */}
            <Route path="/about" element={<h2>About Page</h2>} /> 
-          <Route path="/services" element={<SiteUser/>} />
+          <Route path="/user" element={<SiteUser/>} />
           <Route path="/contact" element={<h2>Contact Page</h2>} />
           <Route path="/signin" element={<Signup/>} />
           <Route path="/login" element={<Login/>} />
