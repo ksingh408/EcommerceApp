@@ -1,23 +1,21 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { increaseCartQuantity, decreaseCartQuantity, removeFromCart } from "../Store/Slices/addtoCart";
+import { increaseCartQuantity, decreaseCartQuantity, removeFromCart } from "../Redux/Slices/addtoCart";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart?.cartItems || []);
   const dispatch = useDispatch();
 
-  // Calculate total cart price based on quantity
-  const totalCartPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  const totalCartPrice = cart.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0);
 
   return (
-    <div className="container mt-5 d-flex flex-column align-items-center" style={{ width: "80%" }}>
-      <h2 className="text-center mb-4">🛒 Your Cart</h2>
+    <div className="container mt-5 d-flex flex-column align-items-center min-vh-100" style={{ width: "80%" }}>
+      <h2 className="text-center mt-5 mb-4">🛒 Your Cart</h2>
 
       {cart.length === 0 ? (
         <div className="text-center">
           <h4>Your cart is empty!</h4>
-          <Link to="/" className="btn btn-primary mt-3">Start Shopping</Link>
         </div>
       ) : (
         <>
@@ -35,7 +33,6 @@ const Cart = () => {
                     <h5 className="text-truncate">{item.name}</h5>
                     <p className="fw-bold text-success">₹{item.price} x {item.quantity}</p>
 
-          
                     <div className="d-flex justify-content-center align-items-center gap-2">
                       <button 
                         className="btn btn-sm btn-outline-secondary" 
@@ -43,7 +40,7 @@ const Cart = () => {
                       >
                         ➖
                       </button>
-                      <span className="fw-bold">{item.quantity}</span>
+                      <span className="fw-bold">{item.quantity}</span> {/* ✅ Quantity display restored */}
                       <button 
                         className="btn btn-sm btn-outline-primary" 
                         onClick={() => dispatch(increaseCartQuantity(item.id))}
@@ -68,11 +65,16 @@ const Cart = () => {
           <div className="text-center mt-4">
             <h4>Total Cart Price: <span className="fw-bold text-success">₹{totalCartPrice}</span></h4>
           </div>
+
+      
+          <div className="text-center mt-4">
+            <Link to="/checkout" className="btn btn-success">Buy Now</Link>
+          </div>
         </>
       )}
 
       <div className="text-center mt-4">
-        <Link to="/" className="btn btn-outline-secondary">⬅ Back to Shopping</Link>
+        <Link to="/user" className="btn btn-outline-secondary">⬅ Back to Shopping</Link>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import Img from"../image/img2.jpg";
 
 function DarkVariantExample() {
   return (
-        <div>
+        <div className='position-relative'>
     <Carousel data-bs-theme="light">
       <Carousel.Item>
         <img

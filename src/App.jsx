@@ -10,26 +10,32 @@ import Home from './Components/Product/Home';
 import SiteUser from "./Components/Product/usersProduct"
 import Cart from "./Components/Product/CartPage.jsx"
 import Wishlist from './Components/Product/Wishlist.jsx';
+import Seller from './Components/Product/sellerAction.jsx'
+import Admin from './Components/Product/AdminUser.jsx'
+import Checkout from './Components/Product/checkOut.jsx';
+import OrderSuccess from './Components/Product/orderSucess.jsx';
 const App = () => {
-  const [user, setUser] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
+
     
   return (
     <Router>
-      <Navbar /> {/* Add the Navbar here */} 
+      <Navbar /> 
        <div>
         <Routes>
         <Route path="/" element={<Home/>} />
         
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
-           {/* <Route path="/men" element={<h2>Men</h2>} /> 
-           <Route path="/women" element={<h2>Women</h2>} /> */}
            <Route path="/about" element={<h2>About Page</h2>} /> 
-          <Route path="/services" element={<SiteUser/>} />
+          <Route path="/user" element={<SiteUser/>} />
           <Route path="/contact" element={<h2>Contact Page</h2>} />
-          <Route path="/signin" element={<Signup users={user} setUsers={setUser} />} />
-          <Route path="/login" element={<Login users={user} setCurrentUser={setCurrentUser} />} />
+          <Route path="/signin" element={<Signup/>} />
+          <Route path="/login" element={<Login/>} />
+          <Route path="/about" element={<h2>About Page</h2>} /> 
+           <Route path="/seller" element={<Seller/>} /> 
+           <Route path="/admin" element={<Admin/>} /> 
+           <Route path="/checkout" element={<Checkout />} />
+           <Route path="/order-success" element={<OrderSuccess />} />
         </Routes> 
        </div>
        <Footer/> 
