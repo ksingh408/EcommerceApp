@@ -5,13 +5,19 @@ import { addToWishlist, removeFromWishlist } from "../Redux/Slices/wishlistSlice
 import { Button, Card, Dropdown } from "react-bootstrap";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import Carousel from "./Carousal";
+import userData from"../JsonData/config.json";
+import { useMemo } from 'react';
 
 const CardImg = () => {
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist.wishlistItems);
   const searchTerm = useSelector((state) => state.search.searchTerm);
-  const allproducts = useSelector((state) => state.seller.products);
+  const allproduct = useSelector((state) => state.seller.products);
 
+  console.log(userData)
+  const allproducts=useMemo(()=>userData.products.concat(allproduct),[allproduct]);
+  console.log(allproducts)
+  
   const [sortOrder, setSortOrder] = useState("default");
   const [filteredProducts, setFilteredProducts] = useState(allproducts);
 
@@ -66,7 +72,7 @@ const CardImg = () => {
             return (
               <Card
                 key={index}
-                className="mt-4 position-relative product-card"
+                className="mt-4 mb-3 position-relative product-card"
                 style={{
                   width: "22%",
                   transition: "transform 0.2s ease, box-shadow 0.3s ease",
