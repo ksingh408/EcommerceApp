@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import productData from "../../JsonData/config.json"
+//import productData from "../../JsonData/config.json"
 const initialState = {
   // sellers: [],
   
-  products:productData.products || [],
+  products:[],
   currentSeller: null,
 };
 

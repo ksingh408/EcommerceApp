@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-//import config from "../config.json";
+import userData from"../JsonData/config.json";
+import { useMemo } from 'react';
+
 
 export default function CardImg() {
   const [sortOrder, setSortOrder] = useState("default");
   const searchTerm = useSelector((state) => state.search.searchTerm); 
   
-  const allproducts=useSelector((state)=>state.seller.products)
-
+  const allproduct=useSelector((state)=>state.seller.products)
+  const allproducts=useMemo(()=>userData.products.concat(allproduct),[allproduct]);
   
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
