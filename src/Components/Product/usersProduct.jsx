@@ -5,37 +5,43 @@ import { addToWishlist, removeFromWishlist } from "../Redux/Slices/wishlistSlice
 import { Button, Card, Dropdown } from "react-bootstrap";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import Carousel from "./Carousal";
-import userData from"../JsonData/config.json";
+import {fetchProducts} from"../Redux/Slices/productdata";  
 import { useMemo } from 'react';
+import { use } from "react";
 
 const CardImg = () => {
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist.wishlistItems);
   const searchTerm = useSelector((state) => state.search.searchTerm);
-  const allproduct = useSelector((state) => state.seller.products);
+  //const allproduct = useSelector((state) => state.seller.products);
+  const {items}=useSelector((state)=>state.product);
+  const products=items;
+  
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
-  console.log(userData)
-  const allproducts=useMemo(()=>userData.products.concat(allproduct),[allproduct]);
-  console.log(allproducts)
+  // const allproducts=useMemo(()=>userData.products.concat(allproduct),[allproduct]);
+  // console.log(allproducts)
   
   const [sortOrder, setSortOrder] = useState("default");
-  const [filteredProducts, setFilteredProducts] = useState(allproducts);
+  const [filteredProducts, setFilteredProducts] = useState(products);
 
   // Debounce Search Logic
   useEffect(() => {
     const timer = setTimeout(() => {
       if (searchTerm) {
-        const filtered = allproducts.filter((product) =>
+        const filtered = products.filter((product) =>
           product.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredProducts(filtered);
       } else {
-        setFilteredProducts(allproducts);
+        setFilteredProducts(products);
       }
     }, 500); 
 
     return () => clearTimeout(timer);
-  }, [searchTerm, allproducts]);
+  }, [searchTerm, products]);
 
   // Sort Products
   const sortedProducts = [...filteredProducts].sort((a, b) => {

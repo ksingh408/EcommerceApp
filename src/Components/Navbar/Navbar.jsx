@@ -13,7 +13,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   
-  const user = useSelector((state) => state.auth.currentUser);
+  const user = useSelector((state) => state.auth.user);
+  console.log(user);
   const cartItems = useSelector((state) => state.cart?.cartItems || []);
   const wishlistItems = useSelector((state) => state.wishlist?.wishlistItems || []);
   const cartCount = cartItems.length;
@@ -27,8 +28,15 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logoutUser());
-    navigate("/"); 
+    dispatch(logoutUser())
+      .unwrap()
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => {
+        console.error("Logout failed:", err);
+        alert("Logout failed. Please try again.");
+      });
   };
 
   useEffect(() => {
@@ -102,6 +110,9 @@ const Navbar = () => {
           )}
         </Link>
 
+        <Link className="btn btn-outline-light mx-2" to="/register">
+            Register
+          </Link>
       
         {user ? (
           <button className="btn btn-outline-light mx-2" onClick={handleLogout}>

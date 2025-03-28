@@ -5,7 +5,7 @@ import Navbar from './Components/Navbar/Navbar'; // Import Navbar
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from"./Components/Navbar/footer";
 import Login from './Components/Product/LoginPage.jsx';
-import Signup from './Components/SignupPage';
+import Signup from './Components/Product/Register';
 import Home from './Components/Product/Home';
 import SiteUser from "./Components/Product/usersProduct"
 import Cart from "./Components/Product/CartPage.jsx"
@@ -29,7 +29,7 @@ const App = () => {
            <Route path="/about" element={<h2>About Page</h2>} /> 
           <Route path="/user" element={<SiteUser/>} />
           <Route path="/contact" element={<h2>Contact Page</h2>} />
-          <Route path="/signin" element={<Signup/>} />
+          <Route path="/register" element={<Signup/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/about" element={<h2>About Page</h2>} /> 
            <Route path="/seller" element={<Seller/>} /> 

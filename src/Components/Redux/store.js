@@ -5,6 +5,8 @@ import wishlistReducer from "./Slices/wishlistSlice";
 import searchReducer from "./Slices/SearchSlice"; 
 import sellerReducer from "./Slices/sellerReduser";
 import AdminPanel from "./Slices/AdminReduser.jsx";
+import productReducer from "./Slices/productdata";
+
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -13,6 +15,7 @@ const store = configureStore({
     search: searchReducer, 
     seller:sellerReducer,
     admin: AdminPanel,
+    product: productReducer,
   },
 });
 

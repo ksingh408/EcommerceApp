@@ -11,23 +11,28 @@ function LoginPage() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const users = useSelector((state) => state.auth.users);
+  const {error,loading}
+   = useSelector((state) => state.auth);
 
-  const handleLogin = () => {
-    const user = users.find((u) => u.email === email && u.password === password);
-    if (user) {
-      dispatch(loginUser(user)); 
-      if (user.role === "admin") {
-        navigate("/admin"); 
-      } else if (user.role === "seller") {
-        navigate("/seller"); 
+
+const handleLogin = () => {
+  dispatch(loginUser({ email, password }))
+    .unwrap()
+    .then((response) => {
+      if (response.role === "admin") {
+        navigate("/admin");
+      } else if (response.role === "seller") {
+        navigate("/seller");
       } else {
-        navigate("/user"); 
+        navigate("/user");
       }
-    } else {
-      alert("Invalid email or password.");
-    }
-  };
+    })
+    .catch((err) => {
+      const errorMessage = typeof err === "string" ? err : "Invalid email or password.";
+      alert(errorMessage);
+    });
+};
+
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">

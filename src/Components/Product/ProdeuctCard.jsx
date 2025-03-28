@@ -1,30 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import userData from"../JsonData/config.json";
+import {fetchProducts} from"../Redux/Slices/productdata";
 import { useMemo } from 'react';
+import { use } from "react";
 
 
 export default function CardImg() {
+
+  const dispatch = useDispatch();
   const [sortOrder, setSortOrder] = useState("default");
   const searchTerm = useSelector((state) => state.search.searchTerm); 
+  const products=useSelector((state)=>state.product.items);
   
-  const allproduct=useSelector((state)=>state.seller.products)
-  const allproducts=useMemo(()=>userData.products.concat(allproduct),[allproduct]);
   
   useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      const filtered = allproducts.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredCards(filtered);
-    }, 500); 
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm]);
+    dispatch(fetchProducts());
+  }, [dispatch]);
   
-  const [filteredCards, setFilteredCards] = useState(allproducts);
+
+  useEffect(() => {
+    //dispatch(fetchProducts());
+    if (products && products.length > 0) {
+      const delayDebounceFn = setTimeout(() => {
+        const filtered = products.filter((item) =>
+          item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredCards(filtered);
+      }, 500);
+  
+      return () => clearTimeout(delayDebounceFn);
+    }
+  }, [searchTerm, products]);
+  
+  const [filteredCards, setFilteredCards] = useState([]);
+  
+  
+  //const [filteredCards, setFilteredCards] = useState(products);
   let sortedCards = [...filteredCards];
 
   if (sortOrder === "lowToHigh") {
@@ -33,7 +46,8 @@ export default function CardImg() {
     sortedCards.sort((a, b) => b.price - a.price);
   }
 
-  const displayedCards = sortedCards.slice(0, 12); 
+   const displayedCards = sortedCards.slice(0, 12);
+  
 
   return (
     <div className="p-5 bg-red-400 shadow-lg po min-vh-100">
