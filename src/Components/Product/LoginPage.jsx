@@ -2,8 +2,9 @@
 // LoginPage.js
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { loginUser } from "../Redux/Slices/authReducer";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -33,6 +34,7 @@ const handleLogin = () => {
     });
 };
 
+const { loginWithRedirect } = useAuth0();
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
@@ -58,6 +60,11 @@ const handleLogin = () => {
         <button className="btn btn-primary w-100" onClick={handleLogin}>
           Login
         </button>
+
+        <Link className="btn btn-primary w-100 mt-2"
+             onClick={() => loginWithRedirect()}>
+              login with google
+              </Link>
       </div>
     </div>
   );

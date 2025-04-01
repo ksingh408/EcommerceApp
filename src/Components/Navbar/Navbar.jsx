@@ -7,6 +7,8 @@ import { CiShoppingCart } from "react-icons/ci";
 import { AiOutlineBars } from "react-icons/ai";
 import { FaHeart } from "react-icons/fa";
 import { setSearchTerm } from "../Redux/Slices/SearchSlice";
+//import Ologin from "../Product/Oauthlogin"
+
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -27,6 +29,9 @@ const Navbar = () => {
     setShowMenu(!showMenu);
   };
 
+  
+  
+  
   const handleLogout = () => {
     dispatch(logoutUser())
       .unwrap()
@@ -123,6 +128,8 @@ const Navbar = () => {
             Login
           </Link>
         )}
+
+
       </div>
     </nav>
   );

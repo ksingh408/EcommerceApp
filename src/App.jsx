@@ -14,6 +14,7 @@ import Seller from './Components/Product/sellerAction.jsx'
 import Admin from './Components/Product/AdminUser.jsx'
 import Checkout from './Components/Product/checkOut.jsx';
 import OrderSuccess from './Components/Product/orderSucess.jsx';
+
 const App = () => {
 
     
@@ -36,6 +37,7 @@ const App = () => {
            <Route path="/admin" element={<Admin/>} /> 
            <Route path="/checkout" element={<Checkout />} />
            <Route path="/order-success" element={<OrderSuccess />} />
+         
         </Routes> 
        </div>
        <Footer/> 
