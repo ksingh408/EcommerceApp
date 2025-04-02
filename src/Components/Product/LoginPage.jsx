@@ -27,6 +27,8 @@ const handleLogin = () => {
       } else {
         navigate("/user");
       }
+
+      console.log(response.role);
     })
     .catch((err) => {
       const errorMessage = typeof err === "string" ? err : "Invalid email or password.";
@@ -57,6 +59,13 @@ const { loginWithRedirect } = useAuth0();
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+{/* <select name="role" className="form-control mb-3" value={formData.role} onChange={handleChange}>
+                    <option value="user">User</option>
+                    <option value="seller">Seller</option>
+                    <option value="admin">Admin</option>
+                </select> */}
+
         <button className="btn btn-primary w-100" onClick={handleLogin}>
           Login
         </button>

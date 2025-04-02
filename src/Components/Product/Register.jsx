@@ -2,13 +2,14 @@
 
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { registerUser } from "../Redux/Slices/authReducer";
 
 
 
 function RegisterPage() {
-        const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+        const [formData, setFormData] = useState({ name: "", email: "", password: "" ,role:""});
+
         const dispatch = useDispatch();
 
 
@@ -19,6 +20,7 @@ const handleChange = (e) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(registerUser(formData));
+       
     };
  
 
@@ -54,6 +56,13 @@ const handleChange = (e) => {
           value={formData.password}
           onChange={handleChange}
         />
+
+<select name="role" className="form-control mb-3" value={formData.role} onChange={handleChange}>
+                    <option value="user">User</option>
+                    <option value="seller">Seller</option>
+                    <option value="admin">Admin</option>
+                </select>
+
         <button className="btn btn-primary w-100" onClick={handleSubmit}>
           submit
         </button>

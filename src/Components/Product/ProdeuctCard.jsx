@@ -3,7 +3,7 @@ import { useSelector,useDispatch } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import {fetchProducts} from"../Redux/Slices/productdata";
-import { useMemo } from 'react';
+
 import { use } from "react";
 
 

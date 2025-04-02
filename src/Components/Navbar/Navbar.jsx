@@ -75,7 +75,7 @@ const Navbar = () => {
               <Link className="dropdown-item" to="/">Home</Link>
               <Link className="dropdown-item" to="/admin">Admin</Link>
               <Link className="dropdown-item" to="/services">Service</Link>
-              <Link className="dropdown-item" to="/dashboard">Dashboard</Link>
+              <Link className="dropdown-item" to="/seller">seller</Link>
             </div>
           )}
         </div>
