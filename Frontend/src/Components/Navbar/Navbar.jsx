@@ -41,38 +41,22 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
-      <div className="container-fluid d-flex justify-content-between align-items-center px-4">
- 
-        <div className="position-relative" ref={menuRef}>
-          <button className="btn bg-transparent border-0" onClickCapture={toggleMenu}>
+      <div className="container-fluid px-3">
+      <div className="d-flex align-items-center w-100 justify-content-between">
+        <div className="d-flex align-items-center" >
+          {/* ref={menuRef} */}
+          <button className="btn bg-transparent border-0" onClick={toggleMenu}>
             <AiOutlineBars size={50} className="text-white" />
           </button>
 
-          {showMenu && (
-            <div
-              className="position-absolute bg-white shadow p-3"
-              style={{
-                top: "60px",
-                left: "0",
-                borderRadius: "10px",
-                zIndex: "1000",
-                width: "180px",
-              }}
-            >  
-              <Link className="dropdown-item" to="/">Home</Link>
-              <Link className="dropdown-item" to="/admin">Admin</Link>
-              <Link className="dropdown-item" to="/services">Service</Link>
-              <Link className="dropdown-item" to="/dashboard">Dashboard</Link>
-            </div>
-          )}
         </div>
 
-        <Link className="navbar-brand mx-3" to="/">
-          <h1 className="text-white">OnlineStore</h1>
-        </Link>
+        <Link className="navbar-brand ms-2" to="/">
+              <h3 className="text-white mb-0">OnlineStore</h3>
+            </Link>
 
   
-        <div className="d-flex flex-row mx-auto ms-3" style={{ width: "30%" }}>
+        <div className="d-none d-md-flex mx-auto w-50" >
           <input
             type="text"
             className="form-control"
@@ -80,10 +64,10 @@ const Navbar = () => {
             value={searchTerm}
             onChange={(e) => setLocalSearchTerm(e.target.value)}
           />
-          <button className="btn btn-outline-light mx-1">Search</button>
+          <button className="btn btn-outline-light ms-2">Search</button>
         </div>
 
-    
+        <div className="d-flex align-items-center">
         <Link to="/wishlist" className="btn position-relative mx-2">
           <FaHeart size={30} className="text-danger" />
           {wishlistCount > 0 && (
@@ -104,15 +88,46 @@ const Navbar = () => {
 
       
         {user ? (
-          <button className="btn btn-outline-light mx-2" onClick={handleLogout}>
+          <button className="btn btn-outline-light mx-2 d-none d-lg-block" onClick={handleLogout}>
             Logout
           </button>
         ) : (
-          <Link className="btn btn-outline-light mx-2" to="/login">
+          <Link className="btn btn-outline-light mx-2 d-none d-lg-block" to="/login">
             Login
           </Link>
         )}
+      </div>  
       </div>
+      {showMenu && (
+          <div className="bg-white shadow p-3 mt-2 rounded ">
+            <Link className="dropdown-item" to="/" onClick={() => setShowMenu(false)}>Home</Link>
+            <Link className="dropdown-item" to="/admin" onClick={() => setShowMenu(false)}>Admin</Link>
+            <Link className="dropdown-item" to="/services" onClick={() => setShowMenu(false)}>Service</Link>
+            <Link className="dropdown-item" to="/dashboard" onClick={() => setShowMenu(false)}>Dashboard</Link>
+            <div className="mt-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search for products..."
+                value={searchTerm}
+                onChange={(e) => setLocalSearchTerm(e.target.value)}
+              />
+              <button className="btn btn-dark w-100 mt-2">Search</button>
+            </div>
+            <div className="mt-3 d-lg-none">
+      {user ? (
+        <button className="btn btn-outline-dark w-100" onClick={handleLogout}>
+          Logout
+        </button>
+      ) : (
+        <Link className="btn btn-outline-dark w-100" to="/login" onClick={() => setShowMenu(false)}>
+          Login
+        </Link>
+      )}
+    </div>
+          </div>
+        )}
+    </div>
     </nav>
   );
 };

@@ -1,13 +1,13 @@
 // src/App.js
 import React,{useState} from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './Components/Navbar/Navbar'; // Import Navbar
+import Navbar from './Components/Navbar/Navbar.jsx'; // Import Navbar
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Footer from"./Components/Navbar/footer";
+import Footer from"./Components/Navbar/footer.jsx";
 import Login from './Components/Product/LoginPage.jsx';
-import Signup from './Components/SignupPage';
-import Home from './Components/Product/Home';
-import SiteUser from "./Components/Product/usersProduct"
+import Signup from './Components/SignupPage.jsx';
+import Home from './Components/Product/Home.jsx';
+import SiteUser from "./Components/Product/usersProduct.jsx"
 import Cart from "./Components/Product/CartPage.jsx"
 import Wishlist from './Components/Product/Wishlist.jsx';
 import Seller from './Components/Product/sellerAction.jsx'
