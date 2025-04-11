@@ -1,11 +1,12 @@
 // routes/authRoutes.js
 const express = require('express');
 const router = express.Router();
-const { register, login } = require('../controllers/userController');
+const { register, login, logout } = require('../controllers/userController');
 const { protect, authorizeRoles } = require('../middlewares/authMiddleware');
 
 router.post('/register', register);
 router.post('/login', login);
+router.post('/logout', logout);
 
 // Protected routes
 router.get('/user', protect, authorizeRoles('user'), (req, res) => {

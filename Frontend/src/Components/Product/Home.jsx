@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector ,useDispatch} from "react-redux";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import userData from"../JsonData/config.json";
+//import userData from"../JsonData/config.json";
 import { useMemo } from 'react';
 import Carousal from "./Carousal";
+import {fetchProducts} from "../Redux/Slices/productSlice";
 
 
 export default function CardImg() {
+  const dispatch = useDispatch(); 
   const [sortOrder, setSortOrder] = useState("default");
+  const [filteredCards, setFilteredCards] = useState([]);
   const searchTerm = useSelector((state) => state.search.searchTerm); 
-  
-  const allproduct=useSelector((state)=>state.seller.products)
-  const allproducts=useMemo(()=>userData.products.concat(allproduct),[allproduct]);
-  
+  const allproducts = useSelector((state) => state.products.items);
+  // const allproduct=useSelector((state)=>state.seller.products)
+  // const allproducts=useMemo(()=>userData.products.concat(allproduct),[allproduct]);
+  // Update filteredCards when allproducts or searchTerm changes
+  const loading = useSelector((state) => state.products.loading);
+  const error = useSelector((state) => state.products.error);
+
+
+     // Fetch products when the component mounts
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       const filtered = allproducts.filter((item) =>
@@ -25,16 +37,18 @@ export default function CardImg() {
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);
   
-  const [filteredCards, setFilteredCards] = useState(allproducts);
-  let sortedCards = [...filteredCards];
 
+ // Sort the filtered cards based on sortOrder
+  let sortedCards = [...filteredCards];
   if (sortOrder === "lowToHigh") {
     sortedCards.sort((a, b) => a.price - b.price);
   } else if (sortOrder === "highToLow") {
     sortedCards.sort((a, b) => b.price - a.price);
   }
 
+    // Limit the number of displayed cards
   const displayedCards = sortedCards.slice(0, 12); 
+
 
   return (
     <>

@@ -1,5 +1,3 @@
-
-// LoginPage.js
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -11,21 +9,26 @@ function LoginPage() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const users = useSelector((state) => state.auth.users);
+  const { loading, error, currentUser } = useSelector((state) => state.auth);
 
-  const handleLogin = () => {
-    const user = users.find((u) => u.email === email && u.password === password);
-    if (user) {
-      dispatch(loginUser(user)); 
-      if (user.role === "admin") {
-        navigate("/admin"); 
-      } else if (user.role === "seller") {
-        navigate("/seller"); 
+  const handleLogin = async () => {
+    if (!email || !password) {
+      alert("All fields are required.");
+      return;
+    }
+
+    try {
+      await dispatch(loginUser({ email, password })).unwrap();
+      
+      if (currentUser.role === "admin") {
+        navigate("/admin");
+      } else if (currentUser.role === "seller") {
+        navigate("/seller");
       } else {
-        navigate("/user"); 
+        navigate("/user");
       }
-    } else {
-      alert("Invalid email or password.");
+    } catch (err) {
+      alert(err || "Login failed. Please try again.");
     }
   };
 
@@ -50,13 +53,17 @@ function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button className="btn btn-primary w-100" onClick={handleLogin}>
-          Login
+        <button
+          className="btn btn-primary w-100"
+          onClick={handleLogin}
+          disabled={loading}
+        >
+          {loading ? "Logging In..." : "Login"}
         </button>
+        {error && <p className="text-danger text-center mt-3">{error}</p>}
       </div>
     </div>
   );
 }
 
 export default LoginPage;
-

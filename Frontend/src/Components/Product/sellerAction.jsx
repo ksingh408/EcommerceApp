@@ -1,102 +1,76 @@
-
-import { useSelector, useDispatch } from "react-redux";
-import { addProduct, deleteProduct } from "../Redux/Slices/sellerReduser";
-import { useState } from "react";
-import { Card, Button, Form, Container, Row, Col } from "react-bootstrap";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  fetchSellerProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct
+} from '../Redux/Slices/sellerReduser';
 
 const SellerDashboard = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.seller.products);
-  const [newProduct, setNewProduct] = useState({ name: "", price: "", image: "" });
+  const { products, loading, error } = useSelector((state) => state.seller);
+  const [form, setForm] = useState({ name: '', price: '', description: '', image: '' });
+  const [editingId, setEditingId] = useState(null);
 
-  const handleAddProduct = () => {
-    if (newProduct.name && newProduct.price && newProduct.image) {
-      dispatch(addProduct({ ...newProduct, id: Date.now() })); 
-      setNewProduct({ name: "", price: "", image: "" });
+  useEffect(() => {
+    dispatch(fetchSellerProducts());
+  }, [dispatch]);
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (editingId) {
+      dispatch(updateProduct({ id: editingId, data: form }));
+      setEditingId(null);
+    } else {
+      dispatch(createProduct(form));
+    }
+    setForm({ name: '', price: '', description: '', image: '' });
+  };
+
+  const handleEdit = (product) => {
+    setForm(product);
+    setEditingId(product._id);
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      dispatch(deleteProduct(id));
     }
   };
 
-  const handleDeleteProduct = (id) => {
-    dispatch(deleteProduct(id)); 
-  };
-
   return (
-    <Container className="mt-5 min-vh-100">
-      <Row className="justify-content-center">
-        <Col md={6}>
-          <Card className="shadow-lg p-4">
-            <Card.Body>
-              <h2 className="text-center mb-4">Seller Dashboard</h2>
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4">Seller Dashboard</h2>
 
-              <Form>
-                <Form.Group className="mb-3">
-                  <Form.Label>Image URL</Form.Label>
-                  <Form.Control
-                    type="url"
-                    placeholder="Enter Image URL"
-                    value={newProduct.image}
-                    onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
-                  />
-                </Form.Group>
+      <form onSubmit={handleSubmit} className="grid gap-2 max-w-md mb-6">
+        <input name="name" value={form.name} onChange={handleChange} placeholder="Name" className="border p-2" />
+        <input name="price" value={form.price} onChange={handleChange} placeholder="Price" className="border p-2" />
+        <input name="image" value={form.image} onChange={handleChange} placeholder="Image URL" className="border p-2" />
+        <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description" className="border p-2" />
+        <button className="bg-blue-600 text-white px-4 py-2 rounded">{editingId ? 'Update' : 'Add'} Product</button>
+      </form>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Product Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Product Name"
-                    value={newProduct.name}
-                    onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-                  />
-                </Form.Group>
+      {loading && <p>Loading...</p>}
+      {error && <p className="text-red-500">Error: {error}</p>}
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Price</Form.Label>
-                  <Form.Control
-                    type="number"
-                    placeholder="Enter Price"
-                    value={newProduct.price}
-                    onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-                  />
-                </Form.Group>
-
-                <Button variant="primary" className="w-100" onClick={handleAddProduct}>
-                  Add Product
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-
-      {/* Display All Added Products */}
-      <Row className="mt-5 justify-content-center">
-        {products.length > 0 &&
-          products.map((product) => (
-            <Col md={6} key={product.id} className="mb-5" style={{width:"410px"}}>
-              <Card className="shadow-lg">
-                <Card.Img
-                  variant="top"
-                  src={product.image}
-                  style={{ height: "400px", width:"380px", objectFit: "cover" }}
-                />
-                <Card.Body>
-                  <Card.Title>{product.name}</Card.Title>
-                  <Card.Text className="fw-bold">Price: ₹{product.price}</Card.Text>
-                  <Button
-                    variant="danger"
-                    className="w-100"
-                    onClick={() => handleDeleteProduct(product.id)}
-                  >
-                    Delete Product
-                  </Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-      </Row>
-    </Container>
+      <div className="grid grid-cols-2 gap-4">
+        {products.map((p) => (
+          <div key={p._id} className="border p-4 rounded">
+            <img src={p.image} alt={p.name} className="h-24 w-full object-cover mb-2" />
+            <h3 className="text-lg font-semibold">{p.name}</h3>
+            <p>₹{p.price}</p>
+            <div className="flex gap-2 mt-2">
+              <button onClick={() => handleEdit(p)} className="bg-yellow-400 text-white px-2 py-1 rounded">Edit</button>
+              <button onClick={() => handleDelete(p._id)} className="bg-red-600 text-white px-2 py-1 rounded">Delete</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
 export default SellerDashboard;
-

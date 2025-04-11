@@ -5,7 +5,7 @@ import Navbar from './Components/Navbar/Navbar.jsx'; // Import Navbar
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from"./Components/Navbar/footer.jsx";
 import Login from './Components/Product/LoginPage.jsx';
-import Signup from './Components/SignupPage.jsx';
+import Signup from './Components/Product/SignupPage.jsx';
 import Home from './Components/Product/Home.jsx';
 import SiteUser from "./Components/Product/usersProduct.jsx"
 import Cart from "./Components/Product/CartPage.jsx"

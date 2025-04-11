@@ -86,6 +86,9 @@ const Navbar = () => {
           )}
         </Link>
 
+        <Link className="btn btn-outline-light mx-2 d-none d-lg-block" to="/signin">
+          Sign Up
+          </Link>
       
         {user ? (
           <button className="btn btn-outline-light mx-2 d-none d-lg-block" onClick={handleLogout}>
@@ -102,7 +105,7 @@ const Navbar = () => {
           <div className="bg-white shadow p-3 mt-2 rounded ">
             <Link className="dropdown-item" to="/" onClick={() => setShowMenu(false)}>Home</Link>
             <Link className="dropdown-item" to="/admin" onClick={() => setShowMenu(false)}>Admin</Link>
-            <Link className="dropdown-item" to="/services" onClick={() => setShowMenu(false)}>Service</Link>
+            <Link className="dropdown-item" to="/seller" onClick={() => setShowMenu(false)}>Seller</Link>
             <Link className="dropdown-item" to="/dashboard" onClick={() => setShowMenu(false)}>Dashboard</Link>
             <div className="mt-3">
               <input
