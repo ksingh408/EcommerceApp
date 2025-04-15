@@ -26,8 +26,8 @@ const Navbar = () => {
     setShowMenu(!showMenu);
   };
 
-  const handleLogout = () => {
-    dispatch(logoutUser());
+  const handleLogout = async() => {
+   await dispatch(logoutUser());
     navigate("/"); 
   };
 

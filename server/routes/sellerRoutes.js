@@ -11,7 +11,7 @@ const { protect, authorizeRoles } = require('../middlewares/authMiddleware');
 
 // Protect all routes and restrict to sellers only
 router.use(protect);
-router.use(authorizeRoles('seller', 'admin')); // Allow only sellers and admins
+router.use(authorizeRoles('seller')); // Allow only sellers and admins
 // app.use(cookieParser());
 // Seller-specific routes
 router.get('/products', getSellerProducts);

@@ -14,7 +14,24 @@ import Seller from './Components/Product/sellerAction.jsx'
 import Admin from './Components/Product/AdminUser.jsx'
 import Checkout from './Components/Product/checkOut.jsx';
 import OrderSuccess from './Components/Product/orderSucess.jsx';
+
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCartData } from "./Components/Redux/Slices/addtoCart.jsx";// Import fetchCartData action
+
+
 const App = () => {
+
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.auth.getcurrentUser);
+
+  useEffect(() => {
+    if (currentUser) {
+      // ✅ Automatically fetch cart on reload if user is logged in
+      dispatch(fetchCartData());
+    }
+  }, [currentUser, dispatch]);
+
 
     
   return (
@@ -31,7 +48,7 @@ const App = () => {
           <Route path="/contact" element={<h2>Contact Page</h2>} />
           <Route path="/signin" element={<Signup/>} />
           <Route path="/login" element={<Login/>} />
-          <Route path="/about" element={<h2>About Page</h2>} /> 
+          {/* <Route path="/about" element={<h2>About Page</h2>} />  */}
            <Route path="/seller" element={<Seller/>} /> 
            <Route path="/admin" element={<Admin/>} /> 
            <Route path="/checkout" element={<Checkout />} />

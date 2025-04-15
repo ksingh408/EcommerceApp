@@ -1,9 +1,28 @@
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { Card, Container, Row, Col, Table } from "react-bootstrap";
+import {fetchAllUsers,fetchAllProducts,deleteUserById,deleteProductById } from "../Redux/Slices/AdminReduser"
+import { useEffect } from "react";
 
 const AdminPanel = () => {
+  const dispatch=useDispatch();
   const users = useSelector(state => state.admin.users); 
-  const sellers = useSelector(state => state.admin.sellers); 
+  const products=useSelector(state=>state.admin.products);
+  // const sellers = useSelector(state => state.admin.sellers); 
+
+  useEffect(()=>{
+    dispatch(fetchAllUsers());
+    dispatch(fetchAllProducts());
+  },[dispatch])
+  
+  const handleDeleteuser =  (id) => {
+   dispatch(deleteUserById(id));
+   alert("User deleted successfully");
+  }
+
+  const handleDeleteproduct = (id) => {
+    dispatch(deleteProductById(id));
+    alert("Product deleted successfully");
+  }
 
   return (
     <Container className="mt-5 min-vh-100">
@@ -24,6 +43,7 @@ const AdminPanel = () => {
                       <th>Name</th>
                       <th>Email</th>
                       <th>Role</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -33,6 +53,10 @@ const AdminPanel = () => {
                         <td>{user.name}</td>
                         <td>{user.email}</td>
                         <td>{user.role}</td>
+                       
+              <td>
+                 <button onClick={() => handleDeleteuser(user._id)} className="bg-gray-500 text-white px-4 py-2 rounded">Delete</button>
+              </td>
                       </tr>
                     ))}
                   </tbody>
@@ -49,26 +73,30 @@ const AdminPanel = () => {
         <Col>
           <Card className="shadow-lg">
             <Card.Header className="bg-success text-white text-center">
-              <h4>Sellers</h4>
+              <h4>Products</h4>
             </Card.Header>
             <Card.Body>
-              {sellers.length > 0 ? (
+              {products.length > 0 ? (
                 <Table striped bordered hover responsive>
                   <thead className="table-dark">
                     <tr>
                       <th>#</th>
                       <th>Name</th>
-                      <th>Email</th>
-                      <th>Products Count</th>
+                      <th>Price</th>
+                      <th>Products seller</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {sellers.map((seller, index) => (
-                      <tr key={seller.id}>
+                    {products.map((products, index) => (
+                      <tr key={products.id}>
                         <td>{index + 1}</td>
-                        <td>{seller.name}</td>
-                        <td>{seller.email}</td>
-                        <td>{seller.productCount}</td>
+                        <td>{products.name}</td>
+                        <td>{products.price}</td>
+                        <td>{products.seller}</td>
+                      
+                        <td>     <button onClick={() => handleDeleteproduct(products._id)} className="bg-gray-500 text-white px-4 py-2 rounded">Delete</button>
+               </td>
                       </tr>
                     ))}
                   </tbody>

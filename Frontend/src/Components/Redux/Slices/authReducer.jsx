@@ -17,8 +17,12 @@ export const registerUser = createAsyncThunk('auth/register', async (formData, t
 export const loginUser = createAsyncThunk('auth/login', async (formData, thunkAPI) => {
   try {
     const res = await axios.post(`${API_URL}/login`, formData, { withCredentials: true });
+    // ✅ Save user to localStorage on login
+localStorage.setItem("user", JSON.stringify(res.data.user));
+
     return res.data.user;
   } catch (error) {
+    console.error(error);
     return thunkAPI.rejectWithValue(error.response?.data?.message || "Login failed");
   }
 });
@@ -26,14 +30,27 @@ export const loginUser = createAsyncThunk('auth/login', async (formData, thunkAP
 export const logoutUser = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
     await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });
+    // ✅ Clear user from localStorage on logout
+localStorage.removeItem("user");
+
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response?.data?.message || "Logout failed");
   }
 });
 
+export const getCurrentUser = createAsyncThunk('auth/getCurrentUser', async (_, thunkAPI) => {
+  try {
+    const res = await axios.get(`${API_URL}/me`, { withCredentials: true });
+    return res.data.user;
+  } catch (error) {
+    return thunkAPI.rejectWithValue("Not logged in");
+  }
+});
+
+
 // Initial state
 const initialState = {
-  currentUser: null,
+  currentUser: JSON.parse(localStorage.getItem("user")) || null,
   loading: false,
   error: null,
 };
@@ -70,7 +87,13 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      }).addCase(getCurrentUser.fulfilled, (state, action) => {
+        state.currentUser = action.payload;
       })
+      .addCase(getCurrentUser.rejected, (state, action) => {
+        state.currentUser = null;
+      })
+      
       // Logout
       .addCase(logoutUser.fulfilled, (state) => {
         state.currentUser = null;

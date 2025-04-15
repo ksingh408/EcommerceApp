@@ -16,13 +16,14 @@ function LoginPage() {
       alert("All fields are required.");
       return;
     }
-
+  
     try {
-      await dispatch(loginUser({ email, password })).unwrap();
-      
-      if (currentUser.role === "admin") {
+      const user = await dispatch(loginUser({ email, password })).unwrap();
+      await dispatch(fetchCartData()); // Fetch cart data after login
+  
+      if (user.role === "admin") {
         navigate("/admin");
-      } else if (currentUser.role === "seller") {
+      } else if (user.role === "seller") {
         navigate("/seller");
       } else {
         navigate("/user");
@@ -31,6 +32,7 @@ function LoginPage() {
       alert(err || "Login failed. Please try again.");
     }
   };
+  
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">

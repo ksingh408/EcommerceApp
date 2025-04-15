@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../Redux/Slices/addtoCart";
+import { addToCart ,syncAddToCart} from "../Redux/Slices/addtoCart";
 import { addToWishlist, removeFromWishlist } from "../Redux/Slices/wishlistSlice";
 import { Button, Card, Dropdown } from "react-bootstrap";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -127,7 +127,10 @@ const CardImg = () => {
                     <Button
                       variant="primary"
                       className="mt-2"
-                      onClick={() => dispatch(addToCart(product))}
+                      onClick={() =>{ 
+                        dispatch(addToCart(product)); // Update UI immediately
+                        dispatch(syncAddToCart(product)); // Sync with backend
+                      }}
                     >
                       Add to Cart
                     </Button>
