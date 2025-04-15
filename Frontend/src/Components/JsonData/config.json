@@ -1,6 +1,6 @@
 { "products" :[
         {
-          "id": 1,
+        
           "name": "Men Slim Fit Casual Shirt",
           "brand": "Roadster",
           "price": 999,
@@ -14,7 +14,7 @@
           "rating": 4.5
         },
         {
-          "id": 2,
+        
           "name": "Women Solid A-Line Dress",
           "brand": "HERE&NOW",
           "price": 1299,
@@ -27,7 +27,7 @@
           "rating": 4.2
         },
         {
-          "id": 3,
+        
           "name": "Men Regular Fit Polo T-Shirt",
           "brand": "Puma",
           "price": 899,
@@ -40,7 +40,7 @@
           "rating": 4.3
         },
         {
-          "id": 4,
+        
           "name": "Women Printed Flared Kurta",
           "brand": "Anouk",
           "price": 1199,
@@ -53,7 +53,7 @@
           "rating": 4.4
         },
         {
-          "id": 5,
+        
           "name": "Men Slim Fit Jeans",
           "brand": "Levi's",
           "price": 1999,
@@ -66,7 +66,7 @@
           "rating": 4.6
         },
         {
-          "id": 6,
+        
           "name": "Women Skinny Fit Jeans",
           "brand": "H&M",
           "price": 1599,
@@ -79,7 +79,7 @@
           "rating": 4.5
         },
         {
-          "id": 7,
+        
           "name": "Men Hooded Sweatshirt",
           "brand": "Nike",
           "price": 2499,
@@ -92,7 +92,7 @@
           "rating": 4.7
         },
         {
-          "id": 8,
+        
           "name": "Women Round Neck Top",
           "brand": "Forever 21",
           "price": 799,
@@ -105,7 +105,7 @@
           "rating": 4.3
         },
         {
-          "id": 9,
+        
           "name": "Men Regular Fit Shorts",
           "brand": "Adidas",
           "price": 1299,
@@ -118,7 +118,7 @@
           "rating": 4.4
         },
         {
-          "id": 10,
+          
           "name": "Women Cotton Blend Saree",
           "brand": "Saree Mall",
           "price": 1399,
@@ -131,7 +131,7 @@
           "rating": 4.5
         },
         {
-          "id": 11,
+          
           "name": "Men Solid Formal Shirt",
           "brand": "Van Heusen",
           "price": 1899,
@@ -144,7 +144,7 @@
           "rating": 4.6
         },
         {
-          "id": 12,
+          
           "name": "Women Embroidered Straight Kurti",
           "brand": "W for Woman",
           "price": 999,
@@ -157,7 +157,7 @@
           "rating": 4.3
         },
         {
-          "id": 13,
+          
           "name": "Women Embroidered Straight Kurti",
           "brand": "W for Woman",
           "price": 999,
@@ -170,7 +170,7 @@
           "rating": 4.3
         },
         {
-          "id": 14,
+          
           "name": "Women Embroidered Straight Kurti",
           "brand": "W for Woman",
           "price": 999,
@@ -183,7 +183,7 @@
           "rating": 4.3
         },
         {
-          "id": 15,
+          
           "name": "Women Embroidered Straight Kurti",
           "brand": "W for Woman",
           "price": 999,
@@ -196,7 +196,7 @@
           "rating": 4.3
         },
         {
-          "id": 16,
+          
           "name": "Women Embroidered Straight Kurti",
           "brand": "W for Woman",
           "price": 999,
@@ -209,7 +209,7 @@
           "rating": 4.3
         },
         {
-          "id": 17,
+          
           "name": "Women Embroidered Straight Kurti",
           "brand": "W for Woman",
           "price": 999,
@@ -223,7 +223,7 @@
         },
        
         {
-          "id": 18,
+          
           "name": "Women Embroidered Straight Kurti",
           "brand": "W for Woman",
           "price": 999,
@@ -236,7 +236,7 @@
           "rating": 4.3
         },
         {
-          "id": 19,
+          
           "name": "Women Embroidered Straight Kurti",
           "brand": "W for Woman",
           "price": 999,
@@ -249,7 +249,7 @@
           "rating": 4.3
         },
         {
-          "id": 20,
+          
           "name": "Women Embroidered Straight Kurti",
           "brand": "W for Woman",
           "price": 999,

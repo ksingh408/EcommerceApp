@@ -68,8 +68,9 @@ const Navbar = () => {
         </div>
 
         <div className="d-flex align-items-center">
+
         <Link to="/wishlist" className="btn position-relative mx-2">
-          <FaHeart size={30} className="text-danger" />
+          <FaHeart size={40} className="text-danger" />
           {wishlistCount > 0 && (
             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {wishlistCount}

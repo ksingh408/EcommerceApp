@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart ,syncAddToCart} from "../Redux/Slices/addtoCart";
-import { addToWishlist, removeFromWishlist } from "../Redux/Slices/wishlistSlice";
+import { addToWishlist, removeFromWishlist, syncAddToWishlist } from "../Redux/Slices/wishlistSlice";
 import { Button, Card, Dropdown } from "react-bootstrap";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import Carousel from "./Carousal";
@@ -100,10 +100,10 @@ const CardImg = () => {
                   <div
                     className="position-absolute top-0 end-0 p-2"
                     style={{ cursor: "pointer", zIndex: "10" }}
-                    onClick={() =>
-                      isWishlisted
-                        ? dispatch(removeFromWishlist(product.id))
-                        : dispatch(addToWishlist(product))
+                    onClick={(e) =>{
+                      e.stopPropagation();
+                         dispatch(addToWishlist(product))
+                         dispatch(syncAddToWishlist(product))}
                     }
                   >
                     {isWishlisted ? (
@@ -119,6 +119,8 @@ const CardImg = () => {
                     src={product.image}
                     alt={product.name}
                   />
+
+
                   <Card.Body className="d-flex flex-column justify-content-between">
                     <div>
                       <Card.Title>{product.name}</Card.Title>

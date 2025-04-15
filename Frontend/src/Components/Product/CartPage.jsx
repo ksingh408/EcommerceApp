@@ -1,11 +1,17 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { increaseCartQuantity, decreaseCartQuantity, removeFromCart } from "../Redux/Slices/addtoCart";
+import { increaseCartQuantity, decreaseCartQuantity, removeFromCart,fetchCartData,removeFromCartAsync } from "../Redux/Slices/addtoCart";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart?.cartItems || []);
   const dispatch = useDispatch();
+
+    // Fetch cart data on component mount
+    useEffect(() => {
+      dispatch(fetchCartData());
+    }, [dispatch]);
+  
 
   const totalCartPrice = cart.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0);
 
@@ -21,10 +27,13 @@ const Cart = () => {
         <>
           <div className="row w-100">
             {cart.map((item) => (
-              <div key={item.id} className="col-md-4 col-sm-6 mb-4">
+              console.log(item),
+              // Display each cart item
+              <div key={item._id} className="col-md-4 col-sm-6 mb-4">
                 <div className="card shadow-sm">
                   <img
                     src={item.image}
+                    
                     alt={item.name}
                     className="card-img-top"
                     style={{ height: "200px", objectFit: "cover" }}
@@ -51,7 +60,9 @@ const Cart = () => {
 
                     <button
                       className="btn btn-danger mt-2"
-                      onClick={() => dispatch(removeFromCart(item.id))}
+                      onClick={() => dispatch(removeFromCart(item.id))
+                        
+                      }
                     >
                       Remove ❌
                     </button>

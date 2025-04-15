@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
       quantity: { type: Number, default: 1 }
     }
   ],
-  wishlist: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' }
+  wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
 });
 
 // userSchema.pre('save', async function (next) {

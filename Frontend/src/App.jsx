@@ -18,7 +18,7 @@ import OrderSuccess from './Components/Product/orderSucess.jsx';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCartData } from "./Components/Redux/Slices/addtoCart.jsx";// Import fetchCartData action
-
+import { getWishlistData } from "./Components/Redux/Slices/wishlistSlice.jsx";
 
 const App = () => {
 
@@ -29,8 +29,9 @@ const App = () => {
     if (currentUser) {
       // ✅ Automatically fetch cart on reload if user is logged in
       dispatch(fetchCartData());
+      dispatch(getWishlistData());
     }
-  }, [currentUser, dispatch]);
+  }, [currentUser]);
 
 
     

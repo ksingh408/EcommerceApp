@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../Redux/Slices/authReducer";
-
+import { fetchCartData } from "../Redux/Slices/addtoCart.jsx"; // Import fetchCartData action
+import { getWishlistData} from "../Redux/Slices/wishlistSlice.jsx";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,13 +20,15 @@ function LoginPage() {
   
     try {
       const user = await dispatch(loginUser({ email, password })).unwrap();
-      await dispatch(fetchCartData()); // Fetch cart data after login
-  
+      // Fetch cart data after login
+      await dispatch(fetchCartData());
+      // await dispatch(getWishlistData());
       if (user.role === "admin") {
         navigate("/admin");
       } else if (user.role === "seller") {
         navigate("/seller");
       } else {
+         // Fetch cart data after login
         navigate("/user");
       }
     } catch (err) {

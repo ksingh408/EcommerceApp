@@ -5,27 +5,27 @@ const API_URL = 'http://localhost:5000/api/cart';
 
 // Async thunk to sync cart with backend
 export const syncAddToCart = createAsyncThunk(
-  "cart/syncAdd", // Updated action name to make it clear
-  async (product, { getState }) => {
-    const { auth } = getState();
-    console.log(auth);  // Log user state for debugging (can remove in production)
-    console.log(product);  // Log product details for debugging (can remove in production)
-
-    // Send POST request to add product to backend cart
-    const res = await axios.post(
-      `${API_URL}/`, // Backend API for adding to cart
-      { productId: product.id, quantity: 1 },
-      { withCredentials: true } // Sends cookies with the request
-    );
-    console.log(res.data.cart);  // Log backend cart for debugging
-
-    return res.data.cart;  // Return updated cart from backend
+  "cart/syncAdd",
+  async (product, { rejectWithValue }) => {
+    try {
+      console.log("Product being added to cart:", product);
+      const res = await axios.post(
+        `${API_URL}/`,
+        { productId: product._id, quantity: 1 },
+        { withCredentials: true }
+      );
+      console.log("Cart updated:", res.data.cart); // Debugging log
+      return res.data.cart; // Return the updated cart
+    } catch (error) {
+      console.error("Error adding product to cart:", error.response?.data || error.message);
+      return rejectWithValue(error.response?.data?.message || "Failed to add product to cart");
+    }
   }
 );
 
 // Inside your cartSlice.js or wherever you manage cart logic
 export const fetchCartData = createAsyncThunk(
-  "cart/fetch",
+  "cart/fetchCartData",
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get(`${API_URL}/`, {
@@ -37,6 +37,22 @@ export const fetchCartData = createAsyncThunk(
     }
   }
 );
+
+
+export const removeFromCartAsync = createAsyncThunk(
+  "cart/removeFromCartAsync",
+  async (productId, { rejectWithValue }) => {
+    try {
+      const res = await axios.delete(`${API_URL}/remove/${productId}`, {
+        withCredentials: true,
+      });
+      return res.data.cart; // Updated cart from backend
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Failed to remove product from cart");
+    }
+  }
+);
+
 
 
 const initialState = {
@@ -94,10 +110,21 @@ const addToCartSlice = createSlice({
       state.cartItems = action.payload; // Sync cart after add
     })
     .addCase(fetchCartData.fulfilled, (state, action) => {
-      state.cartItems = action.payload; // Populate cart on login/page reload
-    });
-  }
-});
+      state.cartItems = action.payload.map(item => ({
+        ...item.product,          // spread product details (title, price, etc.)
+        id: item.product._id,     // ensure 'id' exists for frontend logic
+        quantity: item.quantity
+      }));
+        builder.addCase(removeFromCartAsync.fulfilled, (state, action) => {
+          state.cartItems = action.payload.map(item => ({
+            ...item.product,
+            id: item.product._id,
+            quantity: item.quantity
+          }));
+        });
+      });
+    }
+  });
 
 export const { addToCart, removeFromCart, increaseCartQuantity, decreaseCartQuantity, clearCart } = addToCartSlice.actions;
 export default addToCartSlice.reducer;

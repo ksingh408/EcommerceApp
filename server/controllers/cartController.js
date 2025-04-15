@@ -4,6 +4,10 @@ const Product = require('../models/productModel');
 
 exports.addToCart = async (req, res) => {
   const { productId, quantity } = req.body;
+  console.log('Product ID:', productId);
+  console.log('Request Body:', req.body);
+  console.log('Quantity:', quantity);
+  console.log('User ID:', req.user.id);
 
   // Validate productId and quantity
   if (!productId || !quantity || quantity <= 0) {
@@ -19,11 +23,12 @@ exports.addToCart = async (req, res) => {
 
     // Find the product being added to the cart
     const existingItem = user.cart.find(item => item.product.toString() === productId);
-    console.log(existingItem); // Debugging
+    console.log("exist item :",existingItem); // Debugging
 
     if (existingItem) {
       // If the product is already in the cart, update the quantity
-      existingItem.quantity += quantity;
+      existingItem.quantity += 1;
+
     } else {
       // If it's a new product, add it to the cart
       user.cart.push({ product: productId, quantity });
@@ -57,5 +62,38 @@ exports.getCart = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+
+exports.removeFromCart = async (req, res) => {
+  const { productId } = req.body;
+
+  // Validate productId
+  if (!productId) {
+    return res.status(400).json({ error: 'Product ID is required' });
+  }
+
+  try {
+    // Find the user
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+productId = productId.toString();
+    // Filter out the item from the cart
+    const updatedCart = user.cart.filter(
+      item => item.product.toString() !== productId
+    );
+// console.log(updatedCart)
+    // Update the user's cart
+    user.cart = updatedCart;
+    await user.save();
+
+    res.status(200).json({ message: 'Product removed from cart', cart: user.cart });
+  } catch (err) {
+    console.error('Remove from Cart Error:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
 
 

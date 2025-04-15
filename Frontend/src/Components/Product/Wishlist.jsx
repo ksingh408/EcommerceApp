@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { increaseQuantity, decreaseQuantity, removeFromWishlist } from "../Redux/Slices/wishlistSlice";
+import {  removeFromWishlist,getWishlistData } from "../Redux/Slices/wishlistSlice";
 import { Link } from "react-router-dom";
 
 const Wishlist = () => {
   const wishlist = useSelector((state) => state.wishlist?.wishlistItems || []);
   const dispatch = useDispatch();
+
+useEffect(() => {
+    dispatch(getWishlistData());
+  }, [dispatch]);
 
   const [sortOrder, setSortOrder] = useState("default");
 
@@ -45,27 +49,14 @@ const Wishlist = () => {
                     <h5 className="text-truncate">{item.name}</h5>
                     <p className="fw-bold text-success">₹{item.price} x {item.quantity}</p>
 
-                    {/* Quantity Controls */}
-                    <div className="d-flex justify-content-center align-items-center gap-2">
-                      <button 
-                        className="btn btn-sm btn-outline-secondary" 
-                        onClick={() => dispatch(decreaseQuantity(item.id))}
-                      >
-                        ➖
-                      </button>
-                      <span className="fw-bold">{item.quantity}</span>
-                      <button 
-                        className="btn btn-sm btn-outline-primary" 
-                        onClick={() => dispatch(increaseQuantity(item.id))}
-                      >
-                        ➕
-                      </button>
-                    </div>
-
+                  
+                        
                     {/* Remove Button */}
                     <button
                       className="btn btn-danger mt-2"
-                      onClick={() => dispatch(removeFromWishlist(item.id))}
+                      onClick={() => dispatch(removeFromWishlist(item.id))
+                        
+                      }
                     >
                       Remove ❌
                     </button>
