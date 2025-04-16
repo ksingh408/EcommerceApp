@@ -24,7 +24,7 @@ export default function CardImg() {
      // Fetch products when the component mounts
   useEffect( () => {
     dispatch(fetchProducts());
-  },[dispatch]);
+  },[],[dispatch]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {

@@ -30,7 +30,7 @@ export const fetchCartData = createAsyncThunk(
     try {
       const res = await axios.get(`${API_URL}/`, {
         withCredentials: true, // Send cookie to backend
-      });
+      })
       return res.data.cart; // Assuming backend sends { cart: [...] }
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Failed to fetch cart");
@@ -41,9 +41,12 @@ export const fetchCartData = createAsyncThunk(
 
 export const removeFromCartAsync = createAsyncThunk(
   "cart/removeFromCartAsync",
-  async (productId, { rejectWithValue }) => {
+  async (product, { rejectWithValue }) => {
     try {
-      const res = await axios.delete(`${API_URL}/remove/${productId}`, {
+      console.log(product)
+     const productId = product._id;
+      console.log("Product ID to remove:", productId); // Debugging log
+      const res = await axios.delete(`${API_URL}/remove/${product}`, {
         withCredentials: true,
       });
       return res.data.cart; // Updated cart from backend
@@ -112,19 +115,19 @@ const addToCartSlice = createSlice({
     .addCase(fetchCartData.fulfilled, (state, action) => {
       state.cartItems = action.payload.map(item => ({
         ...item.product,          // spread product details (title, price, etc.)
-        id: item.product._id,     // ensure 'id' exists for frontend logic
-        quantity: item.quantity
+        id: item.product._id ||item.product._id,     // ensure 'id' exists for frontend logic
+        quantity: item.quantity,
+      })); // Properly close the map function
+    })
+    .addCase(removeFromCartAsync.fulfilled, (state, action) => {
+      state.cartItems = action.payload.map(item => ({
+        ...item.product,
+        id: item.product._id,
+        quantity: item.quantity,
       }));
-        builder.addCase(removeFromCartAsync.fulfilled, (state, action) => {
-          state.cartItems = action.payload.map(item => ({
-            ...item.product,
-            id: item.product._id,
-            quantity: item.quantity
-          }));
-        });
-      });
-    }
-  });
+    });
+  }
+});
 
 export const { addToCart, removeFromCart, increaseCartQuantity, decreaseCartQuantity, clearCart } = addToCartSlice.actions;
 export default addToCartSlice.reducer;

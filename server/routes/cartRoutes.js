@@ -8,6 +8,6 @@ router.use(authorizeRoles('user'));
 
 router.get('/', getCart); 
 router.post('/', addToCart);
-router.delete('/remove', removeFromCart); // Assuming you have a removeFromCart function in your controller
+router.delete('/remove/:productId', removeFromCart); // Assuming you have a removeFromCart function in your controller
 
 module.exports = router;
