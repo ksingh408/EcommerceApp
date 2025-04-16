@@ -27,9 +27,9 @@ const Cart = () => {
         <>
           <div className="row w-100">
             {cart.map((item) => (
-              console.log(item),
+              
               // Display each cart item
-              <div key={item._id} className="col-md-4 col-sm-6 mb-4">
+              <div key={item.id} className="col-md-4 col-sm-6 mb-4">
                 <div className="card shadow-sm">
                   <img
                     src={item.image}
@@ -60,8 +60,9 @@ const Cart = () => {
 
                     <button
                       className="btn btn-danger mt-2"
-                      onClick={() => dispatch(removeFromCart(item.id))
-                        
+                      onClick={() =>{dispatch(removeFromCart(item.id))
+                       dispatch(removeFromCartAsync(item.id)) // For async removal  
+                      }
                       }
                     >
                       Remove ❌
