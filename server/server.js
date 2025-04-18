@@ -20,7 +20,7 @@ app.use(cookieParser()); // ✅ Required to read cookies
 
 // ✅ CORS setup
 app.use(cors({
-  origin:'https://ecommerceapp-2clz.onrender.com',
+  origin:'https:'*',
 
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
