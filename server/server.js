@@ -20,7 +20,7 @@ app.use(cookieParser()); // ✅ Required to read cookies
 
 // ✅ CORS setup
 app.use(cors({
-  origin:'https:'*',
+  origin:'*',
 
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
