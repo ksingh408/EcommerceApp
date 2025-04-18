@@ -13,7 +13,12 @@ const wishlistRoutes = require('./routes/wishlistRoutes');
 
 dotenv.config();
 connectDB();
+
 const PORT = process.env.PORT || 5000;
+
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
 
 const app = express();
 app.use(cookieParser()); // ✅ Required to read cookies
