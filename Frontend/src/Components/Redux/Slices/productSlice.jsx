@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const fetchProducts = createAsyncThunk('products/fetchAll', async (_, thunkAPI) => {
   try {
-    const res = await axios.get('http://localhost:5000/api/products');
+    const res = await axios.get(import.meta.env.VITE_API_BASE_URL + '/api/products');
     console.log(res.data);
     return res.data;
   } catch (error) {
