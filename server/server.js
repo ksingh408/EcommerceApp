@@ -13,14 +13,19 @@ const wishlistRoutes = require('./routes/wishlistRoutes');
 
 dotenv.config();
 connectDB();
+
 const PORT = process.env.PORT || 5000;
 
 const app = express();
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
 app.use(cookieParser()); // ✅ Required to read cookies
 
 // ✅ CORS setup
 app.use(cors({
-  origin:'https://ecommerceapp-2clz.onrender.com',
+  origin:'*',
 
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
