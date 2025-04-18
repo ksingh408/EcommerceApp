@@ -26,10 +26,12 @@ const App = () => {
   const currentUser = useSelector((state) => state.auth.getcurrentUser);
 
   useEffect(() => {
+    dispatch
     if (currentUser) {
       // ✅ Automatically fetch cart on reload if user is logged in
       dispatch(fetchCartData());
       dispatch(getWishlistData());
+
     }
   }, [currentUser]);
 

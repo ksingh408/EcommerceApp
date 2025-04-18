@@ -4,10 +4,7 @@ const Product = require('../models/productModel');
 
 exports.addToCart = async (req, res) => {
   const { productId, quantity } = req.body;
-  console.log('Product ID:', productId);
-  console.log('Request Body:', req.body);
-  console.log('Quantity:', quantity);
-  console.log('User ID:', req.user.id);
+  
 
   // Validate productId and quantity
   if (!productId || !quantity || quantity <= 0) {
@@ -15,6 +12,7 @@ exports.addToCart = async (req, res) => {
   }
 
   try {
+
     // Fetch the user from the database using the user ID
     const user = await User.findById(req.user.id);
     if (!user) {
@@ -30,6 +28,7 @@ exports.addToCart = async (req, res) => {
       existingItem.quantity += 1;
 
     } else {
+      
       // If it's a new product, add it to the cart
       user.cart.push({ product: productId, quantity });
     }
@@ -67,8 +66,7 @@ exports.getCart = async (req, res) => {
 exports.removeFromCart = async (req, res) => {
   const { productId } = req.params;
   
-   console.log('Product ID to remove:', productId); // Debugging log
-  // Validate productId
+   console.log('Product ID to remove:', productId);
   if (!productId) {
     return res.status(400).json({ error: 'Product ID is required' });
   }
@@ -80,15 +78,14 @@ exports.removeFromCart = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-//productId = productId;
+
     // Filter out the item from the cart
     user.cart = user.cart.filter(item => {
       console.log('Comparing:', item.product.toString(), '!==', productId);
       return item.product.toString() !== productId.toString();
     });
 console.log('Updated Cart:', user.cart); // Debugging log
-    // Update the user's cart
-  //  user.cart = updatedCart;
+
     await user.save();
 
     res.status(200).json({ message: 'Product removed from cart', cart: user.cart });

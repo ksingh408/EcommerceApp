@@ -142,70 +142,68 @@ const AddProduct = () => {
         </div>
       </div>
 
-      {loading && <p className="text-center text-gray-500">Loading products...</p>}
-      {productsError && <p className="text-red-500 text-center">{productsError}</p>}
+    
+      {loading && <p className="text-center text-muted">Loading products...</p>}
+{productsError && <p className="text-danger text-center">{productsError}</p>}
 
-      <div className="px-2 py-3 px-md-5 bg-red-400 shadow-lg col-12 col-md-4 col-lg-3 min-vh-100">
-        <div className="d-flex justify-content-start mb-3 col-12 col-md-4 col-lg-3">
-          {(sellerproducts || []).map((product) => (
-            <div
-              key={product._id}
-              className="bg-white border shadow-sm hover:shadow-md transition rounded-lg p-4 relative"
+<div className="px-2 py-3 px-md-5 bg-danger bg-opacity-10 shadow-lg min-vh-10 w-100">
+  <div className="row g-4">
+    {(sellerproducts || []).map((product) => (
+      <div key={product._id} className="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div className="bg-white border shadow-sm rounded p-3 h-200 position-relative">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="img-fluid rounded mb-3"
+            style={{ height: "400px", objectFit: "cover", width: "100%" }}
+          />
+          <h5 className="fw-bold">{product.name}</h5>
+          <p className="text-muted mb-1">₹{product.price}</p>
+          <p className="text-secondary small">{product.category}</p>
+          <p className="small">{product.description}</p>
+
+          <div className="d-flex gap-2 mt-3">
+            <button
+              onClick={() => handleEdit(product)}
+              className="btn btn-warning btn-sm"
             >
-              <img
-                src={product.image}
-                alt={product.name}
-                className="h-40 w-full object-cover rounded mb-3"
-              />
-              <h3 className="text-xl font-semibold">{product.name}</h3>
-              <p className="text-gray-700 mb-1">₹{product.price}</p>
-              <p className="text-sm text-gray-500">{product.category}</p>
-              <p className="text-sm mt-1">{product.description}</p>
+              Edit
+            </button>
+            <button
+              onClick={() => setShowDeleteId(product._id)}
+              className="btn btn-danger btn-sm"
+            >
+              Delete
+            </button>
+          </div>
 
-              <div className="flex gap-2 mt-4">
-                <button
-                  onClick={() => handleEdit(product)}
-                  className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded transition"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => setShowDeleteId(product._id)}
-                  className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded transition"
-                >
-                  Delete
-                </button>
-              </div>
-
-              {showDeleteId === product._id && (
-                <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center rounded-lg">
-                  <div className="bg-white p-4 rounded shadow-lg text-center">
-                    <p className="mb-3 font-medium">Confirm deletion?</p>
-                    <div className="flex justify-center gap-4">
-                      <button
-                        onClick={() => confirmDelete(product._id)}
-                        className="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700"
-                      >
-                        Yes
-                      </button>
-                      <button
-                        onClick={() => setShowDeleteId(null)}
-                        className="bg-gray-300 px-4 py-1 rounded hover:bg-gray-400"
-                      >
-                        No
-                      </button>
-                    </div>
-                  </div>
+          {showDeleteId === product._id && (
+            <div className="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center rounded">
+              <div className="bg-white p-3 rounded shadow text-center">
+                <p className="mb-3 fw-semibold">Confirm deletion?</p>
+                <div className="d-flex justify-content-center gap-3">
+                  <button
+                    onClick={() => confirmDelete(product._id)}
+                    className="btn btn-danger btn-sm"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    onClick={() => setShowDeleteId(null)}
+                    className="btn btn-secondary btn-sm"
+                  >
+                    No
+                  </button>
                 </div>
-              )}
+              </div>
             </div>
-          ))}
+          )}
         </div>
       </div>
-    </>
+    ))}
+  </div>
+</div>
+</>
   );
-};
-
+}
 export default AddProduct;
-
-

@@ -44,12 +44,12 @@ export const removeFromCartAsync = createAsyncThunk(
   async (product, { rejectWithValue }) => {
     try {
       console.log(product)
-     const productId = product._id;
+     const productId = product;
       console.log("Product ID to remove:", productId); // Debugging log
       const res = await axios.delete(`${API_URL}/remove/${product}`, {
         withCredentials: true,
       });
-      return res.data.cart; // Updated cart from backend
+      return productId; // Updated cart from backend
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Failed to remove product from cart");
     }
@@ -77,9 +77,9 @@ const addToCartSlice = createSlice({
     },
 
     // Remove product from cart
-    removeFromCart: (state, action) => {
-      state.cartItems = state.cartItems.filter(item => item.id !== action.payload);
-    },
+    // removeFromCart: (state, action) => {
+    //   state.cartItems = state.cartItems.filter(item => item.id !== action.payload);
+    // },
 
     // Increase product quantity in cart
     increaseCartQuantity: (state, action) => {
@@ -120,12 +120,10 @@ const addToCartSlice = createSlice({
       })); // Properly close the map function
     })
     .addCase(removeFromCartAsync.fulfilled, (state, action) => {
-      state.cartItems = action.payload.map(item => ({
-        ...item.product,
-        id: item.product._id,
-        quantity: item.quantity,
-      }));
+      const removedId = action.payload;
+      state.cartItems = state.cartItems.filter(item => item.id !== removedId);
     });
+
   }
 });
 
@@ -133,74 +131,3 @@ export const { addToCart, removeFromCart, increaseCartQuantity, decreaseCartQuan
 export default addToCartSlice.reducer;
 
 
-
-// import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import axios from "axios";
-
-// // Async thunk to sync cart with backend
-// export const syncAddToCart = createAsyncThunk(
-//   "cart/syncAddToCart",
-//   async (product, { getState }) => {
-//     const { auth } = getState();
-//     const res = await axios.post(
-//       "/api/cart",
-//       { productId: product.id, quantity: 1 },
-//       {
-//         headers: {
-//           Authorization: `Bearer ${auth.token}`,
-//         },
-//       }
-//     );
-//     return res.data.cart; // optional: use backend cart if needed
-//   }
-// );
-
-// const initialState = {
-//   cartItems: [],
-// };
-
-// const addToCartSlice = createSlice({
-//   name: "cart",
-//   initialState,
-//   reducers: {
-//     addToCart: (state, action) => {
-//       const existingItem = state.cartItems.find(item => item.id === action.payload.id);
-//       if (existingItem) {
-//         existingItem.quantity += 1;
-//       } else {
-//         state.cartItems.push({ ...action.payload, quantity: 1 });
-//       }
-//     },
-//     removeFromCart: (state, action) => {
-//       state.cartItems = state.cartItems.filter(item => item.id !== action.payload);
-//     },
-//     increaseCartQuantity: (state, action) => {
-//       const item = state.cartItems.find(item => item.id === action.payload);
-//       if (item) item.quantity += 1;
-//     },
-//     decreaseCartQuantity: (state, action) => {
-//       const item = state.cartItems.find(item => item.id === action.payload);
-//       if (item) {
-//         if (item.quantity > 1) {
-//           item.quantity -= 1;
-//         } else {
-//           state.cartItems = state.cartItems.filter(cartItem => cartItem.id !== action.payload);
-//         }
-//       }
-//     },
-//     clearCart: (state) => {
-//       state.cartItems = [];
-//     },
-//   },
-//  
-// });
-
-// export const {
-//   addToCart,
-//   removeFromCart,
-//   increaseCartQuantity,
-//   decreaseCartQuantity,
-//   clearCart,
-// } = addToCartSlice.actions;
-
-// export default addToCartSlice.reducer;

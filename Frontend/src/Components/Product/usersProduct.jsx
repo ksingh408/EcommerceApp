@@ -74,9 +74,9 @@ const CardImg = () => {
       <div className="row g-4 mt-2 p-3 bg-light shadow-lg ">
         {sortedProducts.length > 0 ? (
           sortedProducts.map((product, index) => {
-           const isWishlisted = wishlist.some((item) =>{ 
-            console.log("item and product id:",item._id,product._id)
-            item._id.tostring() === product._id.tostring()});
+           const isWishlisted = wishlist.some((item)=>item.id === product._id);
+           
+
   
             return (
               <div
@@ -104,8 +104,8 @@ const CardImg = () => {
                     style={{ cursor: "pointer", zIndex: "10" }}
                     onClick={(e) =>{
                       e.stopPropagation();
-                         dispatch(addToWishlist(product))
-                        // dispatch(syncAddToWishlist(product))
+                       //  dispatch(addToWishlist(product))
+                        dispatch(syncAddToWishlist(product))
                         }
                     }
                   >
@@ -133,7 +133,7 @@ const CardImg = () => {
                       variant="primary"
                       className="mt-2"
                       onClick={() =>{ 
-                        dispatch(addToCart(product)); // Update UI immediately
+                       // dispatch(addToCart(product)); // Update UI immediately
                         dispatch(syncAddToCart(product)); // Sync with backend
                       }}
                     >

@@ -10,7 +10,8 @@ const Cart = () => {
     // Fetch cart data on component mount
     useEffect(() => {
       dispatch(fetchCartData());
-    }, [dispatch]);
+      console.log("cart",fetchCartData());
+    },[], [dispatch]);
   
 
   const totalCartPrice = cart.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0);
@@ -29,7 +30,7 @@ const Cart = () => {
             {cart.map((item) => (
               
               // Display each cart item
-              <div key={item.id} className="col-md-4 col-sm-6 mb-4">
+              <div key={item._id || item.id} className="col-md-4 col-sm-6 mb-4">
                 <div className="card shadow-sm">
                   <img
                     src={item.image}
@@ -40,6 +41,7 @@ const Cart = () => {
                   />
                   <div className="card-body text-center">
                     <h5 className="text-truncate">{item.name}</h5>
+                    
                     <p className="fw-bold text-success">₹{item.price} x {item.quantity}</p>
 
                     <div className="d-flex justify-content-center align-items-center gap-2">
@@ -60,8 +62,9 @@ const Cart = () => {
 
                     <button
                       className="btn btn-danger mt-2"
-                      onClick={() =>{dispatch(removeFromCart(item.id))
+                      onClick={() =>{//dispatch(removeFromCart(item.id))
                        dispatch(removeFromCartAsync(item.id)) // For async removal  
+                  //    dispatch(removeFromCart(item.id)) // For sync removal;
                       }
                       }
                     >

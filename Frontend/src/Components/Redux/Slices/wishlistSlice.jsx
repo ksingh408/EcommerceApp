@@ -8,14 +8,12 @@ export const syncAddToWishlist = createAsyncThunk(
   "wishlist/syncAdd",
   async (product, { rejectWithValue }) => {
     try {
-      console.log("Product being added to wishlist:", product);
+     
       const res = await axios.post(
         `${API_URL}/`,
         { productId: product._id },
         { withCredentials: true }
       );
-
-      console.log("wishlist updated:", res.data.wishlist); // Debugging log
 
       return res.data.wishlist; // Return the updated cart
     } catch (error) {
@@ -33,7 +31,8 @@ export const getWishlistData = createAsyncThunk(
       const res = await axios.get(`${API_URL}/`, {
         withCredentials: true, // Send cookie to backend
       });
-      return res.data.wishlist; // Assuming backend sends { cart: [...] }
+      console.log("Wishlist data fetched:", res.data); // Debugging log
+      return res.data.wishlist; 
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Failed to fetch cart");
     }
@@ -41,42 +40,64 @@ export const getWishlistData = createAsyncThunk(
 );
 
 
+export const removeFromWishlistAsync = createAsyncThunk(
+  "cart/removeFromWishlistAsync",
+  async (product, { rejectWithValue }) => {
+    try {
+      console.log(product)
+     const productId = product;
+      console.log("Product ID to remove:", productId); // Debugging log
+      const res = await axios.delete(`${API_URL}/remove/${productId}`, {
+        withCredentials: true,
+      });
+      return productId; // Updated cart from backend
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Failed to remove product from cart");
+    }
+  }
+);
+
 const initialState = {
   wishlistItems: [],
 };
 const wishlistSlice = createSlice({
   name: "wishlist",
   initialState,
-  reducers: {
-    addToWishlist: (state, action) => {
-      const existingItem = state.wishlistItems.find(item => item.id === action.payload.id);
-      console.log("Existing Item:", existingItem);
-      console.log("Wishlist payload:", action.payload);
-      console.log("Wishlist state:", state.wishlistItems);
-      if (existingItem) {
-        alert("Product already in wishlist"); 
-      } else {
-        state.wishlistItems.push({ ...action.payload });
-      }
-    },
-    removeFromWishlist: (state, action) => {
-      state.wishlistItems = state.wishlistItems.filter(item => item.id !== action.payload);
-    }
-  },
+  // reducers: {
+  //   addToWishlist: (state, action) => {
+  //     const existingItem = state.wishlistItems.find(item => item.id === action.payload.id);
+     
+  //     if (existingItem) {
+  //       alert("Product already in wishlist"); 
+  //     } else {
+  //       state.wishlistItems.push({ ...action.payload });
+  //     }
+  //   },
+  //   removeFromWishlist: (state, action) => {
+  //     state.wishlistItems = state.wishlistItems.filter(item => item.id !== action.payload);
+  //   }
+  // },
+
   extraReducers: (builder) => {
     builder
       .addCase(syncAddToWishlist.fulfilled, (state, action) => {
+     
         state.wishlistItems = action.payload;
       })
       .addCase(getWishlistData.fulfilled, (state, action) => {
-        state.wishlistItems = action.payload
         state.wishlistItems = action.payload.map(item => ({
-       ...item.product,
-          id: item.product._id, // 👈 normalized ID for frontend
-          quantity: item.quantity,
-        }));
-      });
+          ...item.product ,       // spread product details (title, price, etc.)
+          id: item.product._id,   // ensure 'id' exists for frontend logic
+         // quantity: item.quantity,
+        })); 
+   
+           })
+           .addCase(removeFromWishlistAsync.fulfilled, (state, action) => {
+                 const removedId = action.payload;
+                state.wishlistItems = state.wishlistItems.filter(item => item.id !== removedId);
+               });
   }
+  
 });
 
 export const { addToWishlist, removeFromWishlist } = wishlistSlice.actions;

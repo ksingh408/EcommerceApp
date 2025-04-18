@@ -24,7 +24,7 @@ export default function CardImg() {
      // Fetch products when the component mounts
   useEffect( () => {
     dispatch(fetchProducts());
-  },[],[dispatch]);
+  },[dispatch]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -35,7 +35,7 @@ export default function CardImg() {
     }, 500); 
 
     return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm]);
+  }, [searchTerm,allproducts]);
   
 
  // Sort the filtered cards based on sortOrder
