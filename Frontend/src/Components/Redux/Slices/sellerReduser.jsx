@@ -24,7 +24,7 @@ export const createProduct = createAsyncThunk('seller/createProduct', async (dat
 
 export const updateProduct = createAsyncThunk('seller/updateProduct', async ({ id, data }, thunkAPI) => {
   try {
-    const res = await axios.put(`${API_URL}/${id}`, data, { withCredentials: true });
+    const res = await axios.put(`${API_URL}/${_id}`, data, { withCredentials: true });
     return res.data;
   } catch (err) {
     return thunkAPI.rejectWithValue(err.response?.data?.message || 'Failed to update product');
@@ -89,43 +89,3 @@ export default sellerSlice.reducer;
 
 
 
-
-
-// import { createSlice } from "@reduxjs/toolkit";
-// //import productData from "../../JsonData/config.json"
-// const initialState = {
-//   // sellers: [],
-  
-//   products:[],
-//   currentSeller: null,
-// };
-
-// // console.log(product);
-
-
-// const sellerSlice = createSlice({
-//   name: "seller",
-//   initialState,
-//   reducers: {
-//     loginSeller: (state, action) => {
-//       state.currentSeller = action.payload;
-//     },
-//     logoutSeller: (state) => {
-//       state.currentSeller = null;
-//     },
-//     addProduct: (state, action) => {
-//       const newProduct = action.payload
-//       state.products.push({...newProduct, id: Date.now()});
-//     },
-//     updateProduct: (state, action) => {
-//       const index = state.products.findIndex(p => p.id === action.payload.id);
-//       if (index !== -1) state.products[index] = action.payload;
-//     },
-//     deleteProduct: (state, action) => {
-//       state.products = state.products.filter(p => p.id !== action.payload);
-//     },
-//   },
-// });
-
-// export const { loginSeller, logoutSeller, addProduct, updateProduct, deleteProduct } = sellerSlice.actions;
-// export default sellerSlice.reducer;
