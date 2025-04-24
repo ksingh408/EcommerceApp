@@ -22,7 +22,7 @@ export const createProduct = createAsyncThunk('seller/createProduct', async (dat
   }
 });
 
-export const updateProduct = createAsyncThunk('seller/updateProduct', async ({ id, data }, thunkAPI) => {
+export const updateProduct = createAsyncThunk('seller/updateProduct', async ({ _id, data }, thunkAPI) => {
   try {
     const res = await axios.put(`${API_URL}/${_id}`, data, { withCredentials: true });
     return res.data;
