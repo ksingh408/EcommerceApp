@@ -6,9 +6,11 @@ import Card from "react-bootstrap/Card";
 import { useMemo } from 'react';
 import Carousal from "./Carousal";
 import {fetchProducts} from "../Redux/Slices/productSlice";
+import { useNavigate } from "react-router-dom";
 
 
 export default function CardImg() {
+  const Navigate=useNavigate();
   const dispatch = useDispatch(); 
   const [sortOrder, setSortOrder] = useState("default");
   const [filteredCards, setFilteredCards] = useState([]);
@@ -84,7 +86,7 @@ export default function CardImg() {
                     <Card.Title>{eachCard.name}</Card.Title>
                     <Card.Text>Price: ₹{eachCard.price}</Card.Text>
                   </div>
-                  <Button variant="primary" className="mt-2">Go to Cart</Button>
+                  <Button variant="primary" className="mt-2" onClick={()=>Navigate("/login")}>Go to Cart</Button>
                 </Card.Body>
               </Card>
             </div>
