@@ -39,14 +39,14 @@ const Navbar = () => {
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, dispatch]);
 
-  return (
+  return (<>
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
       <div className="container-fluid px-3">
       <div className="d-flex align-items-center w-100 justify-content-between">
         <div className="d-flex align-items-center" >
           {/* ref={menuRef} */}
           <button className="btn bg-transparent border-0" onClick={toggleMenu}>
-            <AiOutlineBars size={50} className="text-white" />
+            <AiOutlineBars size={30} className="text-white" />
           </button>
 
         </div>
@@ -69,8 +69,8 @@ const Navbar = () => {
 
         <div className="d-flex align-items-center">
 
-        <Link to="/wishlist" className="btn position-relative mx-2">
-          <FaHeart size={40} className="text-danger" />
+        <Link to="/wishlist" className="btn position-relative mx-1">
+          <FaHeart size={25} className="text-danger" />
           {wishlistCount > 0 && (
             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {wishlistCount}
@@ -78,8 +78,8 @@ const Navbar = () => {
           )}
         </Link>
 
-        <Link to="/cart" className="btn position-relative mx-2">
-          <CiShoppingCart size={40} className="text-white opacity-70" />
+        <Link to="/cart" className="btn position-relative mx-1">
+          <CiShoppingCart size={30} className="text-white opacity-70" />
           {cartCount > 0 && (
             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {cartCount}
@@ -87,7 +87,7 @@ const Navbar = () => {
           )}
         </Link>
 
-        <Link className="btn btn-outline-light mx-2 d-none d-lg-block" to="/signin">
+        <Link className="btn btn-outline-light mx-2 d-none d-sm-block" to="/signin">
           Sign Up
           </Link>
       
@@ -96,14 +96,16 @@ const Navbar = () => {
             Logout
           </button>
         ) : (
-          <Link className="btn btn-outline-light mx-2 d-none d-lg-block" to="/login">
+          <Link className="btn btn-outline-light mx-1 d-none d-lg-block" to="/login">
             Login
           </Link>
         )}
       </div>  
-      </div>
+      </div> </div>
+    </nav>
+    
       {showMenu && (
-          <div className="bg-white shadow p-3 mt-2 rounded ">
+          <div className="bg-white shadow p-3 mt-5 rounded position-absolute" style={{ zIndex: 1000, width: '200px' }}>
             <Link className="dropdown-item" to="/" onClick={() => setShowMenu(false)}>Home</Link>
             <Link className="dropdown-item" to="/admin" onClick={() => setShowMenu(false)}>Admin</Link>
             <Link className="dropdown-item" to="/seller" onClick={() => setShowMenu(false)}>Seller</Link>
@@ -131,8 +133,8 @@ const Navbar = () => {
     </div>
           </div>
         )}
-    </div>
-    </nav>
+        
+   </>
   );
 };
 
