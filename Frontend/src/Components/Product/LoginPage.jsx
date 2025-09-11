@@ -38,36 +38,67 @@ function LoginPage() {
   
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <div
-        className="bg-light shadow-lg p-5 rounded d-flex flex-column justify-content-center"
-        style={{ width: "400px", height: "400px" }}
-      >
-        <h2 className="text-center mb-4">Login</h2>
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div
+      className="bg-white shadow-lg p-5 rounded-4"
+      style={{ width: "400px", minHeight: "470px" }}
+    >
+      {/* Heading */}
+      <h2 className="text-center mb-4 fw-bold text-primary">Welcome Back</h2>
+      <p className="text-center text-muted mb-4">
+        Please login to continue
+      </p>
+
+      {/* Email input */}
+      <div className="mb-3">
+        <label className="form-label fw-semibold">Email</label>
         <input
           type="email"
-          className="form-control mb-4"
-          placeholder="Email"
+          className="form-control"
+          placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+      </div>
+
+      {/* Password input */}
+      <div className="mb-3">
+        <label className="form-label fw-semibold">Password</label>
         <input
           type="password"
-          className="form-control mb-4"
-          placeholder="Password"
+          className="form-control"
+          placeholder="Enter your password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button
-          className="btn btn-primary w-100"
-          onClick={handleLogin}
-          disabled={loading}
-        >
-          {loading ? "Logging In..." : "Login"}
-        </button>
-        {error && <p className="text-danger text-center mt-3">{error}</p>}
       </div>
+
+      {/* Login button */}
+      <button
+        className="btn btn-primary w-100 py-2 fw-semibold"
+        onClick={() => handleLogin(email, password)}
+        disabled={loading}
+      >
+        {loading ? "Logging In..." : "Login"}
+      </button>
+
+      {/* Error message */}
+      {error && <p className="text-danger text-center mt-3">{error}</p>}
+
+      {/* Signup link */}
+      <p className="text-center mt-4 text-muted">
+  Don’t have an account?{" "}
+  <span
+    role="button"
+    className="fw-semibold text-primary text-decoration-none"
+    onClick={() => navigate("/signin")}
+  >
+    Sign Up
+  </span>
+</p>
+
     </div>
+  </div>
   );
 }
 
